@@ -1,5 +1,6 @@
 (() => {
 'use strict';
+const catalogueBase = new URL('.',document.currentScript.src);
 const $ = (id)=>document.getElementById(id), ds=$('dataset'), mode=$('mode'), q=$('query');
 const data=globalThis.NMP_DATASETS_13;
 if (!data || !Array.isArray(data.rows)) { $('results-status').textContent='データを読み込めませんでした。展開先を確認してください。'; return; }
@@ -37,7 +38,7 @@ function play(r,btn){
  lastButton=btn;$('playing').textContent=r.title;$('player').hidden=false;
  $('player-note').textContent='読み込み中…';
  if(id!==request||r.mode!=='audio'||!/^assets\/[a-z0-9._-]+\.(wav|m4a)$/i.test(r.file))return;
- const uri='./'+r.file;
+ const uri=new URL(r.file,catalogueBase).href;
  $('player-note').textContent=(r.kind||'試聴')+(r.location?' · '+r.location:'');
  audio.src=uri;audio.play().catch(()=>{$('player-note').textContent='再生ボタンを押してください。';});
 }
