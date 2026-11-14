@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notable Musical Patterns | 音楽パターン試聴</title>
+<link rel="stylesheet" href="./style.css"><script src="./catalogue-data.js" defer></script><script src="./search.js" defer></script>
+</head><body><main>
+<header><p class="eyebrow">NOTABLE MUSICAL PATTERNS</p>
+<h1>楽曲のパターンを聴く</h1>
+<p>作品名・作曲者・パターンを検索し、試聴できる例は該当箇所を聴けます。音源がない例も、版・該当箇所・出典を確認できます。</p></header>
+<section aria-labelledby="search-title">
+<h2 id="search-title">パターンを探す</h2>
+<label for="query">検索（例：ハバネラ、Bach、偽終止）</label>
+<input type="search" id="query" autocomplete="off">
+<label class="audio-toggle"><input type="checkbox" id="audio-only"> 試聴できる例だけ表示</label>
+<p id="count" role="status"></p>
+<div id="cards"></div>
+<p id="empty" hidden>一致する例がありません。</p>
+<noscript>検索と試聴には JavaScript を有効にしてください。</noscript>
+</section>
+<footer>試聴音はMIDIからの合成で、人の演奏録音ではありません。 <a href="./credits.html">出典・利用条件</a> · <a href="https://github.com/nha6ki/notable-musical-patterns/releases/tag/v0.1.0">カタログ v0.1.0</a></footer>
+</main></body></html>
