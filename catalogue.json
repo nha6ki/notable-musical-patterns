@@ -1,0 +1,141 @@
+{
+  "schema": "nmp-metadata-v1",
+  "cards": [
+    {
+      "concept_id": "canon_at_octave",
+      "concept_ja": "オクターヴ・カノン",
+      "work": "The Art of Fugue, BWV 1080: Canon alla Ottava",
+      "creator": "Johann Sebastian Bach",
+      "edition": "Mutopia-2006/04/28-746",
+      "location": "Upper voice mm. 1–2; lower voice mm. 5–6",
+      "evidence": "local_score_midi",
+      "aliases": "バッハ 対位法 オクターブ Bach",
+      "id": "NMP-001",
+      "finding": "The lower voice restates the upper voice’s opening two bars one octave lower.",
+      "scope_note_ja": "Only the opening subject and its first lower-voice entry were compared.",
+      "source_url": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=746",
+      "source_credit": "Johann Sebastian Bach; source Breitkopf & Härtel, 1885; typesetting Arnaud Gossart, Mutopia Project.",
+      "additional_source_urls": []
+    },
+    {
+      "concept_id": "canon_augmentation_contrary_motion",
+      "concept_ja": "拡大・反行カノン",
+      "work": "The Art of Fugue, BWV 1080: Canon per Augmentationem in Contrario Motu",
+      "creator": "Johann Sebastian Bach",
+      "edition": "Mutopia-2006/05/03-750",
+      "location": "Upper voice mm. 1–4; lower voice mm. 5–12",
+      "evidence": "local_score_midi",
+      "aliases": "バッハ 対位法 バッハ Bach 拡大 反行",
+      "id": "NMP-002",
+      "finding": "The answering voice doubles the durations and reverses the melodic direction.",
+      "scope_note_ja": "This does not mean every interval is a strict chromatic inversion.",
+      "source_url": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=750",
+      "source_credit": "Johann Sebastian Bach; source Breitkopf & Härtel, 1885; typesetting Arnaud Gossart, Mutopia Project.",
+      "additional_source_urls": []
+    },
+    {
+      "concept_id": "changing_meter",
+      "concept_ja": "途中の拍子変更",
+      "work": "Album für die Jugend, Op. 68 No. 11: Sicilienne",
+      "creator": "Robert Schumann",
+      "edition": "Mutopia-2007/02/11-783",
+      "location": "Mm. 26–37; return at m. 38",
+      "evidence": "local_score_midi",
+      "aliases": "変拍子 シューマン シチリアーナ 拍子 Sicilienne",
+      "id": "NMP-003",
+      "finding": "The selected passage uses 2/4 and changes back to 6/8 at bar 38.",
+      "scope_note_ja": "The advance time-signature indication is not counted as the first bar in 2/4.",
+      "source_url": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=783",
+      "source_credit": "Robert Schumann; Peters source; typesetting Philippe Hézaine © 2007, Mutopia Project. The linked edition is marked CC BY-SA 2.5.",
+      "additional_source_urls": []
+    },
+    {
+      "concept_id": "habanera_2_4_rhythm_cell",
+      "concept_ja": "ハバネラのリズム型",
+      "work": "Solace: A Mexican Serenade",
+      "creator": "Scott Joplin",
+      "edition": "Mutopia-2015/01/25-482",
+      "location": "Mutopia bars 5–6 (Heazlewood-Dale fig. 17 uses A-strain bars 1–2).",
+      "evidence": "local_score_midi",
+      "aliases": "ジョプリン ソレイス ハバネラ Habanera",
+      "id": "NMP-004",
+      "finding": "Across the two bars, each bar’s left-hand attack gaps follow 3:1:2:2.",
+      "scope_note_ja": "This is the left-hand onset pattern in those bars only. The analytical figure is a separate reference; the two source editions are not treated as interchangeable.",
+      "source_url": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=482",
+      "source_credit": "Scott Joplin; typesetting Magnus Lewis-Smith, Mutopia Project. Analysis reference: Heazlewood-Dale, Fig. 17 (see DOI).",
+      "additional_source_urls": [
+        "https://doi.org/10.5406/25784773.6.2.02"
+      ]
+    },
+    {
+      "concept_id": "minor_fifths_progression",
+      "concept_ja": "短調の五度下降進行",
+      "work": "Impromptu in E-flat major, D.899 No. 2",
+      "creator": "Franz Schubert",
+      "edition": "Mutopia-2008/09/28-1551",
+      "location": "Score-wide mm. 25–32",
+      "evidence": "local_score_midi",
+      "aliases": "シューベルト 即興曲 和声 五度下降 D899",
+      "id": "NMP-005",
+      "finding": "The bass anchors and chord tones support a descending-fifth reduction in minor.",
+      "scope_note_ja": "The progression is a harmonic reduction of the passage, not a claim that the score presents block chords.",
+      "source_url": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=1551",
+      "source_credit": "Franz Schubert; source Breitkopf & Härtel, 1888; typesetting Ph. Raynaud, Mutopia Project. Analysis reference: Andre Mount, Fundamentals, Function, and Form, Ex. 25–7.",
+      "additional_source_urls": [
+        "https://milnepublishing.geneseo.edu/fundamentals-function-form/chapter/25-diatonic-descending-fifth-sequences/"
+      ]
+    },
+    {
+      "concept_id": "pedal_tone",
+      "concept_ja": "ペダル音",
+      "work": "平均律クラヴィーア曲集 第1巻 ハ長調前奏曲 BWV 846",
+      "creator": "Johann Sebastian Bach",
+      "edition": "Mutopia #5 / Mutopia-2011/09/12-5（Tobias Erbsland）",
+      "location": "A4譜面 p.2、第32〜35小節",
+      "evidence": "local_score_midi",
+      "aliases": "バッハ ペダルポイント 保続音 低音 平均律 BWV846",
+      "id": "NMP-006",
+      "finding": "The lowest C is attacked five times while the harmonies above it change. The first half of bar 34 contains the notes of G7 above the pedal.",
+      "scope_note_ja": "It is not a four-bar tie. The final printed arpeggio and fermata are not represented as separate timings in the MIDI.",
+      "source_url": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=5",
+      "source_credit": "Johann Sebastian Bach; typesetting Tobias Erbsland, Mutopia Project; source edition unspecified on the catalogue page.",
+      "additional_source_urls": [
+        "https://musictheory.pugetsound.edu/mt21c/PedalPoint.html"
+      ]
+    },
+    {
+      "concept_id": "deceptive_cadence",
+      "concept_ja": "偽終止",
+      "work": "Piano Sonata in C minor, Op. 13 (Pathétique), III",
+      "creator": "Ludwig van Beethoven",
+      "edition": "Mutopia-2013/01/08-296（Chris Sawer、Berners 1908 / A. Winterberger版に基づく）",
+      "location": "第3楽章、PDF p.1、第13小節後半から第14小節頭",
+      "evidence": "local_score_midi",
+      "aliases": "偽終止 cadence ベートーヴェン 悲愴 第3楽章 G7 A-flat",
+      "id": "NMP-007",
+      "finding": "In C minor, the dominant seventh on G moves to an A-flat major triad at the next barline rather than resolving to the tonic.",
+      "scope_note_ja": "Applies to this barline and edition only; the MIDI is generated from the engraving.",
+      "source_url": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=296",
+      "source_credit": "Ludwig van Beethoven; Berners 1908 source edited by A. Winterberger; typesetting Chris Sawer, Mutopia Project.",
+      "additional_source_urls": []
+    },
+    {
+      "concept_id": "repeated_eighth_chord_accompaniment",
+      "concept_ja": "反復8分音符の和音伴奏",
+      "work": "Ich grolle nicht, Op.48 No.7",
+      "creator": "Robert Schumann",
+      "edition": "Mutopia-2013/09/01-309（Alexandre Benéteau、Breitkopf & Härtel 1882年版に基づく）",
+      "location": "PDF p.1、冒頭第1〜4小節、ピアノ右手",
+      "evidence": "local_score_midi",
+      "aliases": "repeated_eighth_chord_accompaniment シューマン 詩人の恋 Dichterliebe Ich grolle nicht 8分 反復",
+      "id": "NMP-008",
+      "finding": "The right hand makes 32 chord attacks on the eighth-note grid across four bars, while the chord pitches change.",
+      "scope_note_ja": "Only the right-hand part in bars 1–4 was compared. The passage does not repeat a single unchanging chord.",
+      "source_url": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=309",
+      "source_credit": "Robert Schumann; text Heinrich Heine; Breitkopf & Härtel 1882 source; typesetting Alexandre Benéteau, Mutopia Project.",
+      "additional_source_urls": [
+        "https://musictheory.pugetsound.edu/mt21c/BlockChordAccompaniments.html"
+      ]
+    }
+  ]
+}
