@@ -2,7 +2,10 @@
 'use strict';
 const catalogueBase = new URL('.',document.currentScript.src);
 const $ = (id)=>document.getElementById(id), ds=$('dataset'), mode=$('mode'), q=$('query');
-const data=globalThis.NMP_DATASETS_13;
+const base=globalThis.NMP_DATASETS_13, supplemental=globalThis.NMP_SUPPLEMENT;
+const data=base && Array.isArray(base.rows) && Array.isArray(base.datasets)
+ ? {datasets:[...base.datasets,...(supplemental?.datasets||[])],rows:[...base.rows,...(supplemental?.rows||[])]}
+ : null;
 if (!data || !Array.isArray(data.rows)) { $('results-status').textContent='データを読み込めませんでした。展開先を確認してください。'; return; }
 const n=(a)=>Number(a).toLocaleString('ja-JP');
 const map=new Map(data.datasets.map(d=>[d.id,d]));
@@ -26,7 +29,7 @@ for(const d of data.datasets){
  const c=el('article',null,'dataset');c.dataset.id=d.id;
  c.append(el('span',d.badge||'出典・調査記録','tag'),el('h3',d.title),el('p',n(d.total)+d.unit,'d-count'),el('p',d.summary),el('p',d.license,'license'));
  const totalsText=totals.get(d.id);if(totalsText)c.append(el('p',totalsText,'playback-coverage'));
- const a=el('div',null,'actions'),b=el('button','このデータセットを探す');b.type='button';b.addEventListener('click',()=>{ds.value=d.id;mode.value='';q.value='';refresh();hashDataset();$('explore').scrollIntoView({block:'start'});q.focus({preventScroll:true});});
+ const a=el('div',null,'actions'),b=el('button','この資料を探す');b.type='button';b.addEventListener('click',()=>{ds.value=d.id;mode.value='';q.value='';refresh();hashDataset();$('explore').scrollIntoView({block:'start'});q.focus({preventScroll:true});});
  a.append(b);add(a,link('公式出典 ↗',d.source));c.append(a);$('datasets').append(c);
 }
  if(map.has(qd))ds.value=qd;
