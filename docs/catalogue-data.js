@@ -146,8 +146,17 @@ globalThis.NMP_LISTENING_CATALOGUE = {
         "https://musictheory.pugetsound.edu/mt21c/PedalPoint.html"
       ],
       "display_name_ja": null,
-      "finding_ja": "上の和声が変わる間に、最低音のCが5回鳴ります。",
-      "preview": null,
+      "finding_ja": "上の和声が変わる間に、最低音のCが5回鳴ります。 低音のCが5回鳴る間に、上の和声の変化を聴きます。",
+      "preview": {
+        "file": "./assets/bach-pedal.wav",
+        "sha256": "7f3ad52961ba98af31b107dc3accfee8b97f6623d1a7467b1a4947a56fcc4fb8",
+        "edition": "Mutopia #5 / Mutopia-2011/09/12-5（Tobias Erbsland）",
+        "source_url": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=5",
+        "bars": "第32〜35小節",
+        "seconds": 16.0,
+        "source_license": "Public Domain（Mutopiaでの当該版の表示）",
+        "credit": "出典版：Mutopia Project / Tobias Erbsland（組版）。同版はMutopiaでPublic Domain表記。最終小節のアルペッジョとフェルマータによる伸長は、原MIDIと同じく再現していません。"
+      },
       "scope_display_ja": "4小節にわたるタイではありません。終わりのアルペッジョとフェルマータはMIDIで個別の時間変化として表されていません。",
       "credit_display_ja": "J. S. Bach作曲、Tobias Erbsland 組版（Mutopia Project）。元の版はカタログページに記載なし。"
     },
@@ -167,8 +176,17 @@ globalThis.NMP_LISTENING_CATALOGUE = {
       "source_credit": "Ludwig van Beethoven; Berners 1908 source edited by A. Winterberger; typesetting Chris Sawer, Mutopia Project.",
       "additional_source_urls": [],
       "display_name_ja": "ピアノソナタ《悲愴》第3楽章",
-      "finding_ja": "ハ短調の属七の和音 G7 が、主和音ではなく変イ長三和音に進みます。",
-      "preview": null,
+      "finding_ja": "ハ短調の属七の和音 G7 が、主和音ではなく変イ長三和音に進みます。 約1.67秒からG7、約2.22秒で変イ長三和音へ進みます。",
+      "preview": {
+        "file": "./assets/beethoven-cadence.wav",
+        "sha256": "7f10519b00512d96dae4ca6890adf82d0ffcdcb44ad35bfbb33d44562c0300cc",
+        "edition": "Mutopia-2013/01/08-296（Chris Sawer、Berners 1908 / A. Winterberger版に基づく）",
+        "source_url": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=296",
+        "bars": "第12〜14小節",
+        "seconds": 3.3333333333333335,
+        "source_license": "Public Domain（Mutopiaでの当該版の表示）",
+        "credit": "出典版：Mutopia Project / Chris Sawer（組版）。同版はMutopiaでPublic Domain表記。試聴を第14小節末で終えるため、第15小節へ続くタイを区切っています。"
+      },
       "scope_display_ja": "この版の該当する小節線に限る観察です。MIDIは同版の組版から生成されています。",
       "credit_display_ja": "Ludwig van Beethoven作曲、A. Winterberger 校訂のBerners 1908年版に基づく。Chris Sawer 組版（Mutopia Project）。"
     },
