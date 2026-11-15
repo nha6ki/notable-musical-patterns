@@ -31,7 +31,7 @@ body.clip-open{padding-bottom:var(--clip-pad,120px)}
 @media(max-width:690px){main,.clip-bar{width:calc(100% - 30px)}main{padding-top:1.5rem}.controls--basic,.card-top,.clip-bar{grid-template-columns:1fr}.clip-bar{gap:.32rem}.clip-bar .nmp-btn{justify-self:start}body.clip-open{padding-bottom:var(--clip-pad,225px)}}
 .card-actions{display:grid;gap:.3rem;justify-items:start}
 #clip-player :focus-visible{outline:2px solid #f6f2e8;outline-offset:3px}
-</style><link rel="stylesheet" href="../../ui-visual.css?v=consistency-1"><link rel="canonical" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="ja" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="alternate" hreflang="en" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="x-default" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="stylesheet" href="../../i18n.css?v=1"><script defer src="../../i18n.js?v=1"></script><body class="page-explore"><a href="#q" class="nmp-skip">Skip to main content</a><header class="nmp-bar"><div class="nmp-bar-inner"><a class="nmp-brand" href="../" aria-label="Notable Musical Patterns home"><span class="nmp-brand-mark">NMP</span><span>NOTABLE MUSICAL<br>PATTERNS</span></a><nav aria-label="Main navigation"><a href="../">Home</a><a href="../explore/" aria-current="page">Search by Feature</a><a href="../datasets/">Search by Source</a><a href="../guide/">Read the Guide</a><a class="nmp-language" href="../../explore/" hreflang="ja" aria-label="Switch to Japanese">Japanese</a></nav></div></header><main id="main">
+</style><link rel="stylesheet" href="../../ui-visual.css?v=feature-cards-1"><link rel="canonical" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="ja" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="alternate" hreflang="en" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="x-default" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="stylesheet" href="../../i18n.css?v=1"><script defer src="../../i18n.js?v=1"></script><body class="page-explore"><a href="#q" class="nmp-skip">Skip to main content</a><header class="nmp-bar"><div class="nmp-bar-inner"><a class="nmp-brand" href="../" aria-label="Notable Musical Patterns home"><span class="nmp-brand-mark">NMP</span><span>NOTABLE MUSICAL<br>PATTERNS</span></a><nav aria-label="Main navigation"><a href="../">Home</a><a href="../explore/" aria-current="page">Search by Feature</a><a href="../datasets/">Search by Source</a><a href="../guide/">Read the Guide</a><a class="nmp-language" href="../../explore/" hreflang="ja" aria-label="Switch to Japanese">Japanese</a></nav></div></header><main id="main">
 <header class="section-head"><div class="eyebrow">01 / EXPLORE BY CONCEPT</div><h1 class="nmp-page-title">Search by Feature</h1><p class="nmp-page-lead">Find short clips by musical feature or work title, and compare examples that share a feature. To learn what to listen for, <a href="../guide/">read the guide</a>.</p><p class="muted" id="totals"></p></header>
 <section class="search-shell" aria-label="Listening clip search filters">
 <div class="controls controls--basic"><label>Search terms or clip ID<input id="q" type="search" placeholder="e.g. Alberti bass, hi-hat"></label><label>Category<select id="grp"></select></label></div>
@@ -41,7 +41,7 @@ body.clip-open{padding-bottom:var(--clip-pad,120px)}
 <p class="muted localization-note">English descriptions preserve the source records’ qualifications and verification status. Japanese work titles are romanized; original names remain searchable.</p><div class="result-bar"><p id="result" role="status" tabindex="-1"></p><div class="paging"><button class="nmp-btn" id="clear-all" type="button">Clear filters</button></div></div>
 <div class="current-filters" id="chips" aria-label="Active filters"></div><p class="muted" id="priority-note" aria-live="polite"></p>
 <p id="scout-empty" hidden>No clips match these filters. Try a shorter search term or remove a filter.</p>
-<div id="list"></div><nav class="paging" aria-label="Search results pagination"><button id="prev" class="nmp-btn" type="button">Previous</button><span id="page"></span><button id="next" class="nmp-btn" type="button">Next</button></nav>
+<div id="list" class="feature-card-grid"></div><nav class="paging" aria-label="Search results pagination"><button id="prev" class="nmp-btn" type="button">Previous</button><span id="page"></span><button id="next" class="nmp-btn" type="button">Next</button></nav>
 <noscript><p>JavaScript is required to search and play clips.</p></noscript></main>
 <footer class="nmp-site-footer"><div class="nmp-site-footer-inner"><span>Notable Musical Patterns</span><nav aria-label="Footer navigation"><a href="../datasets/release-notes.html">Coverage and terms</a><a href="#main">Back to top ↑</a></nav></div></footer><aside id="clip-player" aria-label="Listening player" hidden><div class="clip-bar">
 <div><p id="clip-status" role="status" aria-live="polite">Listen</p><strong id="clip-title"></strong><p id="clip-evidence"></p></div>
@@ -137,19 +137,18 @@ function render(){
  const pages=Math.max(1,Math.ceil(hits.length/pageSize));n=Math.max(0,Math.min(n,pages-1));
  $('result').textContent=fmt.format(hits.length)+(hits.length===1?' clip':' clips');
  list.replaceChildren(...hits.slice(n*pageSize,(n+1)*pageSize).map(a=>{
-  const c=els('article');c.className='card';
+  const c=els('article');c.className='card feature-record';
   const top=priority.get(a[0]);
   const matching=a[10].filter(r=>byTaxonomy(r,g,f,label,type)&&(!st||st===r[2]));
   const mainRel=top[0]||matching[0]||a[10][0];
-  const head=els('div'), headline=els('div');head.className='card-top';headline.className='card-headline';
-  const badge=els('div',(top.length?'Representative for this search · ':'')+(mainRel?tm(mainRel).f:'概念未同定'));badge.className='card-eyebrow';
+  const badge=els('span',(top.length?'Representative for this search · ':'')+(mainRel?tm(mainRel).f:'概念未同定'));badge.className='feature-card-tag';
   const title=els('h2',a[2]), meta=els('p',en(a[1])+' · '+(/[\u3040-\u30ff\u3400-\u9fff]/.test(a[0])?'Source record: ':'')+en(a[0])+' · '+en(a[5]));meta.className='card-meta';
-  headline.append(badge,title,meta);head.append(headline);
+  c.append(badge,title,meta);
   const play=els('button','▶ Listen');play.type='button';play.className='nmp-btn nmp-btn--primary card-play';play.dataset.playId=a[0];play.dataset.title=en(a[2]);play.setAttribute('aria-pressed','false');
   play.setAttribute('aria-label','Listen: '+en(a[2]));
   play.addEventListener('click',event=>{playClip(a,play);if(event.detail===0)focusPlayer();});
   const actions=els('div');actions.className='card-actions';
-  actions.append(play);head.append(actions);
+  actions.append(play);
   const d=els('details');d.append(els('summary','Evidence and scope for each feature'));
   const evidence=window.nmpEvidence(a,en,r=>tm(r).x);
   if(evidence.overview)d.append(els('p',evidence.overview));
@@ -164,15 +163,15 @@ function render(){
   }
   if(a[8])d.append(els('p','Reference tags (including unclassified tags): '+en(a[8])));
   const credit=els('details');credit.append(els('summary','Sources, attribution and usage terms'),...sourceLinks(a,top,'p'),els('p',credits[a[0]][0]),els('p',credits[a[0]][1]));
-  c.append(head);
   let listening=mainRel ? mainRel[0]+' ｜ '+ (mainRel[2]==='出典注釈'?'Source annotation: not necessarily verified in this excerpt':'Structural description of the clip'):'No concept has been identified for this clip';
   const note=els('p',listening);note.className='card-notes';c.append(note);
   if(mainRel && Object.prototype.hasOwnProperty.call(guideAnchors,mainRel[0])){
     const ref=els('a','Read the guide');
     ref.href='../guide/#'+guideAnchors[mainRel[0]];
-    ref.setAttribute('aria-label','Read about '+en(mainRel[0])+' in the guide');
-    note.append(' · ',ref);
+    ref.setAttribute('aria-label','Read the guide: '+en(mainRel[0]));
+    ref.className='feature-card-guide';actions.append(ref);
   }
+  c.append(actions);
   if(top.length){
     const rdetail=els('details');rdetail.append(els('summary','Why this example is shown first'));
     for(const r of top){
