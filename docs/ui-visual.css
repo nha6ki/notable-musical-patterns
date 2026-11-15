@@ -431,3 +431,12 @@ body[class^="page-"] .nmp-page-title {
 .page-datasets #player-source .cred {margin-block:.4rem;}
 .page-datasets #player-source a {color:inherit;}
 .page-datasets #player :focus-visible {outline:2px solid #f6f2e8;outline-offset:3px;}
+
+/* The evidence panel separates the overall method from individual findings. */
+.page-explore .feature-evidence .evidence-body{display:grid;gap:.65rem;margin:.1rem 0 .6rem;}
+.page-explore .feature-evidence .evidence-body p{margin:0;line-height:1.65;}
+.page-explore .feature-evidence .evidence-overview{color:var(--n-ink);}
+.page-explore .feature-evidence .evidence-features{display:grid;gap:.55rem;margin:0;padding:0;list-style:none;}
+.page-explore .feature-evidence .evidence-features li{border-inline-start:2px solid var(--n-line);padding-inline-start:.55rem;}
+.page-explore .feature-evidence .evidence-kind{display:inline-block;background:#edf3e8;color:#215b43;border-radius:4px;padding:.03rem .32rem;font-size:.73rem;font-weight:650;}
+.page-explore .feature-evidence .evidence-tags{font-size:.8rem;color:var(--n-muted);}
