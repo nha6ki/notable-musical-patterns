@@ -6,11 +6,15 @@ window.nmpEvidence = (record, localize, related) => {
   const rawOverview = show(record[9]);
   const leadSheet = rawMethod === '配布JAMSの指示譜による全体の進行。公開されている冒頭試聴が全構造を含むとは限らず、実音の和音同定ではない。';
   const concise = new Map([
-    ['初期版の楽譜・MIDIに由来する抜粋の構造記述を正規化。今回は全例の原譜再読・実聴をしたものではない。', '初期版の楽譜・MIDIに基づく抜粋の構造記述。全例の原譜再確認・実聴は未実施。'],
     ['配布JAMSの指示譜による全体の進行。公開されている冒頭試聴が全構造を含むとは限らず、実音の和音同定ではない。', '配布JAMSの指示譜による全体の進行。冒頭試聴に全構造が含まれるとは限らず、実音の和音は未同定。']
   ]);
   const midiTable = rawMethod.match(/^公開抜粋と配布MIDIイベント表を区間照合。MIDI tick 0基準の4\/4完全小節([12])。約±0\.145四分拍以内の発音を数え、独立実聴と強弱の判断はしない。$/u);
-  const overview = midiTable
+  const initialEdition = rawMethod === '初期版の楽譜・MIDIに由来する抜粋の構造記述を正規化。今回は全例の原譜再読・実聴をしたものではない。';
+  const overview = initialEdition
+    ? rawOverview === rawMethod
+      ? '初期版の楽譜・MIDIに基づく抜粋の構造記述。'
+      : 'Structural description of the excerpt based on the score and MIDI from the initial edition.'
+    : midiTable
     ? rawOverview === rawMethod
       ? `公開抜粋の4/4・${midiTable[1]}小節を配布MIDIと照合（tick 0基準、発音位置の許容差は四分音符1拍の約±0.145）。実聴・強弱の評価は未実施。`
       : `The excerpt spans ${midiTable[1]} complete 4/4 ${midiTable[1] === '1' ? 'bar' : 'bars'} from MIDI tick 0. Onsets were checked against the distributed MIDI (tolerance: about ±0.145 quarter-note beats). Independent listening and dynamics were not assessed.`
