@@ -1,35 +1,84 @@
 # Notable Musical Patterns
 
-## Current website and archived release
+Explore musical patterns through short listening examples, explanations and traceable sources. Notable Musical Patterns connects a listening guide with concept-based search and a cross-source catalogue, so readers can move from a musical idea to an example and see what the evidence does, and does not, establish.
 
-The current [GitHub Pages website](https://nha6ki.github.io/notable-musical-patterns/) is built from `docs/`. It contains **16 datasets/source groups, 6,729 search entries, 2,983 playable entries in the cross-source catalogue, and 105 listening-guide label cards**. These are not counts of unique compositions or independently verified musical concepts. See [publication scope and source-specific terms](docs/datasets/release-notes.html), the [listening guide](docs/guide/index.html), and the credits on each item. The website includes audio excerpts; the archive described below does not.
+**[Open the English website](https://nha6ki.github.io/notable-musical-patterns/en/)** · [日本語サイト](https://nha6ki.github.io/notable-musical-patterns/) · [日本語 README](README.ja.md)
 
-The root-level `catalogue.json`, `search.py`, and the eight-entry references below belong to the **v0.1.0 offline archive**, not the current website catalogue. The no-audio statements in the archive section apply only to that eight-example release.
+## Start exploring
 
-`MANIFEST.sha256` is the **v0.1.0 archive manifest only**. It does not cover `docs/`, the current website, or its audio assets. Its checksums refer to the original files in that release; after documentation updates, verify it against the original v0.1.0 archive, not the revised working tree.
+- **[Field guide](https://nha6ki.github.io/notable-musical-patterns/en/guide/):** read explanations and listening notes for 105 labels.
+- **[Explore](https://nha6ki.github.io/notable-musical-patterns/en/explore/):** find listening examples by concept. An example may have multiple labels; supported representative examples rank ahead of other matching results rather than replacing them.
+- **[Datasets](https://nha6ki.github.io/notable-musical-patterns/en/datasets/):** browse by source, inspect attribution and usage terms, and distinguish on-site audio from external listening links and source-only records.
 
-## Archived v0.1.0 offline guide
+### Current coverage
 
-A small, searchable guide to musical patterns in specific editions of real works. Version 0.1.0 contains **eight examples**. Each points to the bars examined and to the score edition used in a local comparison with its corresponding MIDI.
+| Measure | Count | What it counts |
+| --- | ---: | --- |
+| Datasets and source collections | 16 | Included source groups |
+| Catalogue entries | 6,729 | Searchable records, not unique compositions |
+| Entries with on-site audio | 2,983 | Playable entries in the cross-source catalogue |
+| Entries without on-site audio | 3,746 | Source-only records, including external listening links |
+| External listening links | 578 | A subset of the 3,746 records above |
+| Guide cards | 105 | Explanatory labels, not 105 independently verified concepts |
 
-This is a curated guide rather than a complete corpus. It includes canon, meter change, a habanera rhythm, a descending-fifth progression, a pedal point, a deceptive cadence, and repeated chord accompaniment. The checks apply only to the listed passages. Engraving-generated MIDI is not independent performance evidence.
+Counts describe this website, not the complete holdings of every source. For example, 1,168 Mutopia excerpts reference 1,094 editions; Weimar and JSMel are represented by overview records rather than their individual source records. The guide also has a separately checked Chopin demonstration outside the cross-source audio count.
 
-### Search the eight-example archive offline
+## Evidence and reuse
 
-Unzip the archive and open a terminal in the resulting folder. Python 3 is the only requirement. No files are downloaded or uploaded.
+A dataset label, a local observation in an excerpt and a verified named pattern are different kinds of evidence. Score-generated MIDI is not independent performance evidence. External listening links may refer to another performance, and access can depend on region or account.
+
+Read the [publication scope and source-specific terms](https://nha6ki.github.io/notable-musical-patterns/en/datasets/release-notes.html) and the credits on each entry before reuse. The repository’s licenses do **not** grant blanket rights to recordings, scores, underlying works or third-party datasets.
+
+- [MIT license](LICENSE): project code.
+- [Data and documentation license](LICENSE-DATA.md): project-authored material, only to the extent that the licensor holds the applicable rights.
+- Audio and third-party material: the individual source and item-level terms apply. A reference link is not permission to reuse its target.
+
+## Run locally
+
+The current website is static HTML, CSS and JavaScript under `docs/`. It needs no application server or build step. Use Python 3.9 or later to serve it locally and run the dependency-free checks; no pip or npm installation is needed. The repository includes audio assets, so allow disk space for a full checkout.
+
+From the repository root:
+
+```sh
+git clone https://github.com/nha6ki/notable-musical-patterns.git
+cd notable-musical-patterns
+python3 -m http.server 8000 --bind 127.0.0.1 --directory docs
+```
+
+Open <http://127.0.0.1:8000/en/> for English or <http://127.0.0.1:8000/> for Japanese. Use an HTTP server rather than opening the HTML files directly. Stop the server with Ctrl+C. External source and listening links still require internet access. Explore plays audio from the canonical public site even on a local preview; Guide and Datasets use the checked-out excerpts.
+
+In another terminal, from the same repository root:
+
+```sh
+python3 tools/check_release.py --root .
+python3 -m unittest discover -s tests -v
+```
+
+The release checker reads local files without network access or file writes; the second command runs the unit tests. It checks structural release requirements, not listening quality, legal clearance or browser behavior. Follow [RELEASE-CHECKS.md](RELEASE-CHECKS.md) for the separate browser and publication checks. Serving or editing files locally does not publish them.
+
+## Repository map and contributions
+
+- `docs/`: the GitHub Pages website, shared data and audio; English pages are under `docs/en/`.
+- `tools/check_release.py`: static release checks.
+- [ARCHITECTURE.md](ARCHITECTURE.md): site structure, data flow and maintenance boundaries.
+- [CONTRIBUTING.md](CONTRIBUTING.md): contribution workflow and review expectations.
+- [RELEASE-CHECKS.md](RELEASE-CHECKS.md): pre-publication and post-publication verification.
+- `catalogue.json`, `search.py`, [SOURCES.md](SOURCES.md) and `MANIFEST.sha256`: the historical eight-example archive described below, **not** the current website catalogue.
+
+Keep contributions focused, preserve source and rights information, and distinguish content corrections from publication approval. See the contribution guide before changing data or adding media.
+
+## Historical v0.1.0 archive
+
+The [v0.1.0 release](https://github.com/nha6ki/notable-musical-patterns/releases/tag/v0.1.0) is an **eight-example offline guide**. It is not a snapshot of the current 6,729-entry website. Its checks concern specified passages and editions, not entire works. That archive contains metadata and search code, but no scores, MIDI, recordings, source figures or dataset extracts. The current website, by contrast, includes audio excerpts.
+
+Python 3 is sufficient to search the eight-example archive; no files are downloaded or uploaded:
 
 ```sh
 python3 search.py
 python3 search.py Bach --json
 python3 search.py --concept deceptive_cadence
-python3 search.py ハバネラ --json
 ```
 
-Multiple words use AND matching. The concept filter uses an exact identifier or Japanese label. JSON output includes edition, location, evidence, source links and credits.
+Multiple search words use AND matching. The concept filter accepts an exact identifier or Japanese label. JSON results include edition, location, evidence, sources and credits.
 
-- `catalogue.json`: example metadata.
-- `SOURCES.md`: edition and analysis references.
-- `LICENSE` and `LICENSE-DATA.md`: terms for search code and original metadata/documentation, respectively.
-- `MANIFEST.sha256`: integrity hashes (verify with `sha256sum -c MANIFEST.sha256` where available).
-
-No score, MIDI, recording, source figure or dataset extract is included. Links are references, not grants of rights in the linked material.
+`MANIFEST.sha256` applies **only to the original v0.1.0 archive**. It does not cover `docs/`, the current website or its audio. Verify it against the original extracted release, not this revised working tree: documentation changes can legitimately differ from the historical hashes.

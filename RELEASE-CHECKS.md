@@ -6,12 +6,14 @@ This procedure covers the website in `docs/`, not the archived eight-example v0.
 
 1. Confirm the intended baseline and use a clean worktree. Review the diff for this candidate. Do not include private checkpoints, original source media, unrelated source files, or old archive changes.
 2. Run `python3 tools/check_release.py --root .`. To verify a staged overlay without copying audio, run `python3 tools/check_release.py --root . --overlay /path/to/overlay`. Current expectations are 16 sources, 6,729 catalogue rows, 2,983 catalogue audio files and 105 labels/cards. The guide-only Chopin demonstration is a separately checked asset.
-3. Serve `docs/` on loopback (for example `python3 -m http.server 8000 --bind 127.0.0.1 --directory docs`) and check in desktop Chrome; record browser version and test environment:
-   - Home → Guide, Explore and Datasets; headings readable at desktop widths 1024 and 1440. Check a narrow viewport for horizontal overflow, without claiming a smartphone test.
+3. Run `python3 -m unittest discover -s tests -v` on the candidate. The tests cover previous credit omissions and misdirected evidence links; they do not validate rights. The repository workflow runs both Python commands without a Pages deployment step.
+4. Serve `docs/` on loopback (for example `python3 -m http.server 8000 --bind 127.0.0.1 --directory docs`) and check in desktop Chrome; record browser version and test environment:
+   - Home → Guide, Explore and Datasets; headings readable at desktop widths 1024 and 1440. Check a narrow viewport for horizontal overflow. Record physical devices and Safari separately from desktop viewport emulation.
+   - Language switching: check all six page pairs. From a non-default catalogue or Explore query and a guide detail anchor, switch language and confirm the destination still uses the same filter or section. On English guide cards, verify the edition credit paragraph and evidence link render correctly.
    - Guide: play one clip, filter it out and verify it stops; nonmatching category links are hidden. Open the optional grouped pattern jump, select a hidden card, and confirm it is shown and focused after navigation. Open a label's Explore link and return to the same guide card through the Explore result.
    - Explore: old `?label=...` links work. Filter, clear, reload, use Back/Forward, paginate with Enter, and verify displayed states, result order, page and URL agree. Verify focus after pagination and player close. Use Tab after the active result's play button to find “プレーヤーを操作”. A representative must remain first without dropping the other matches.
    - Datasets: filter by record ID, change display mode and page, verify shared URL/reload/back and forward. Play and stop an existing clip, use the keyboard to move to its player, and verify focus remains useful if the source result has been filtered out. Check the source and credits, headings and links. Mutopia credits lead to the dataset filter and clearly identify their subset.
-4. Record the release scope, final commit, validation outcome and limitations. Release and production changes require approval. Do not retag or replace the historical v0.1.0 archive.
+5. Record the release scope, final commit, validation outcome and limitations. Release and production changes require approval. Do not retag or replace the historical v0.1.0 archive.
 
 ## After publishing
 
