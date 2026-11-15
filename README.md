@@ -1,14 +1,14 @@
 # Notable Musical Patterns
 
-Explore musical patterns through short listening examples, explanations and traceable sources. Notable Musical Patterns connects a listening guide with concept-based search and a cross-source catalogue, so readers can move from a musical idea to an example and see what the evidence does, and does not, establish.
+Explore musical patterns through short listening examples, explanations and traceable sources. Notable Musical Patterns connects a listening guide with a unified catalogue search and a directory of sources, so readers can move from a musical idea to an example and see what the evidence does, and does not, establish.
 
 **[Open the English website](https://nha6ki.github.io/notable-musical-patterns/en/)** · [日本語サイト](https://nha6ki.github.io/notable-musical-patterns/) · [日本語 README](README.ja.md)
 
 ## Start exploring
 
 - **[Field guide](https://nha6ki.github.io/notable-musical-patterns/en/guide/):** read explanations and listening notes for 105 labels.
-- **[Explore](https://nha6ki.github.io/notable-musical-patterns/en/explore/):** find listening examples by concept. An example may have multiple labels; supported representative examples rank ahead of other matching results rather than replacing them.
-- **[Datasets](https://nha6ki.github.io/notable-musical-patterns/en/datasets/):** browse by source, inspect attribution and usage terms, and distinguish on-site audio from external listening links and source-only records.
+- **[Search by Feature](https://nha6ki.github.io/notable-musical-patterns/en/explore/):** find listening examples by feature, work or source. Switch the availability selector to include external listening links or reference material. Supported representative examples rank ahead of other matches without replacing them.
+- **[Search by Source](https://nha6ki.github.io/notable-musical-patterns/en/datasets/):** browse 16 source collections, inspect collection-level coverage and terms, and open the unified search scoped to a collection.
 
 ### Current coverage
 
@@ -45,7 +45,7 @@ cd notable-musical-patterns
 python3 -m http.server 8000 --bind 127.0.0.1 --directory docs
 ```
 
-Open <http://127.0.0.1:8000/en/> for English or <http://127.0.0.1:8000/> for Japanese. Use an HTTP server rather than opening the HTML files directly. Stop the server with Ctrl+C. External source and listening links still require internet access. Explore plays audio from the canonical public site even on a local preview; Guide and Datasets use the checked-out excerpts.
+Open <http://127.0.0.1:8000/en/> for English or <http://127.0.0.1:8000/> for Japanese. Use an HTTP server rather than opening the HTML files directly. Stop the server with Ctrl+C. External source and listening links still require internet access. Search by Feature plays audio from the canonical public site even on a local preview; Read the Guide uses the checked-out excerpts.
 
 In another terminal, from the same repository root:
 

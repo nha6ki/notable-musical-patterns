@@ -199,6 +199,8 @@ def main():
             base=by.get(r[0])
             if not base:continue
             check(audio_key(r[6])==audio_key(base['file']),'Explore audio mismatch: '+r[0])
+            for pos,key in ((2,'title'),(5,'location'),(7,'source')):
+                check((r[pos] or '')==(base.get(key) or ''),'Explore catalogue '+key+' mismatch: '+r[0])
             check(credits.get(r[0])==[base['license'],base['credit']],'Explore rights mismatch: '+r[0])
         en_exp=read('docs/en/explore/index.html')
         check(block(en_exp,'data')==erows,'English Explore clip data differs')

@@ -440,3 +440,9 @@ body[class^="page-"] .nmp-page-title {
 .page-explore .feature-evidence .evidence-features li{border-inline-start:2px solid var(--n-line);padding-inline-start:.55rem;}
 .page-explore .feature-evidence .evidence-kind{display:inline-block;background:#edf3e8;color:#215b43;border-radius:4px;padding:.03rem .32rem;font-size:.73rem;font-weight:650;}
 .page-explore .feature-evidence .evidence-tags{font-size:.8rem;color:var(--n-muted);}
+
+.page-explore .controls--basic{grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) minmax(0,1fr);}
+.page-explore .feature-card-tag.reference-tag{background:#e4eef7;color:#274467;}
+.page-explore #results{scroll-margin-block-start:1rem;}
+.page-explore .feature-record .card-actions a{display:inline-flex;align-items:center;min-height:44px;}
+@media(max-width:690px){.page-explore .controls--basic{grid-template-columns:minmax(0,1fr);}}
