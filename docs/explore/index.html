@@ -32,13 +32,13 @@ body.clip-open{padding-bottom:var(--clip-pad,120px)}
 @media(max-width:690px){main,.clip-bar{width:calc(100% - 30px)}main{padding-top:1.5rem}.controls--basic,.card-top,.clip-bar{grid-template-columns:1fr}.clip-bar{gap:.32rem}.clip-bar .nmp-btn{justify-self:start}body.clip-open{padding-bottom:var(--clip-pad,225px)}}
 .card-actions{display:grid;gap:.3rem;justify-items:start}.card-player-jump{white-space:nowrap}
 #clip-player :focus-visible{outline:2px solid #f6f2e8;outline-offset:3px}
-</style><body><a href="#q" class="nmp-skip">検索欄へ移動</a><header class="nmp-bar"><div class="nmp-bar-inner"><a class="nmp-brand" href="../" aria-label="Notable Musical Patterns トップ"><span class="nmp-brand-mark">NMP</span><span>NOTABLE MUSICAL<br>PATTERNS</span></a><nav aria-label="主要ナビゲーション"><a href="../">トップ</a><a href="../explore/index.html" aria-current="page">概念で探す</a><a href="../datasets/">データセット</a><a href="../guide/index.html">パターン図鑑</a></nav></div></header><main id="main">
-<header class="section-head"><div class="eyebrow">01 / EXPLORE BY CONCEPT</div><h1>概念で探す</h1><p>ハバネラのリズムや、ピアノの伴奏型。気になる特徴から試聴例を探せます。</p><p class="muted" id="totals"></p></header>
+</style><link rel="stylesheet" href="../ui-visual.css?v=visual-1"><body class="page-explore"><a href="#q" class="nmp-skip">検索欄へ移動</a><header class="nmp-bar"><div class="nmp-bar-inner"><a class="nmp-brand" href="../" aria-label="Notable Musical Patterns トップ"><span class="nmp-brand-mark">NMP</span><span>NOTABLE MUSICAL<br>PATTERNS</span></a><nav aria-label="主要ナビゲーション"><a href="../">トップ</a><a href="../explore/index.html" aria-current="page">概念で探す</a><a href="../datasets/">データセット</a><a href="../guide/index.html">パターン図鑑</a></nav></div></header><main id="main">
+<header class="section-head"><div class="eyebrow">01 / EXPLORE BY CONCEPT</div><h1>概念で探す</h1><p>気になる特徴や作品名から、横断カタログの試聴例を探せます。同じ特徴の例を聞き比べるページです。意味や聞きどころを知りたい方は<a href="../guide/">パターン図鑑</a>へ。</p><p class="muted" id="totals"></p></header>
 <section class="search-shell" aria-label="試聴例の検索条件">
-<div class="controls controls--basic"><label>語句・試聴ID<input id="q" type="search" placeholder="例：アルベルティ・バス、ハイハット、12小節ブルース"></label><label>大分類<select id="grp"></select></label></div>
-<details class="advanced"><summary>詳細な絞り込み</summary><div class="controls"><label>パターンのまとまり<select id="fam"></select></label><label>詳細ラベル<select id="cl"></select></label><label>資料群<select id="ds"></select></label><label>ラベルの種類<select id="kind"></select></label><label>ラベルの根拠区分<select id="st"></select></label></div>
-<p id="evidence-title" class="muted" style="margin-bottom:.3em">試聴例単位の根拠の絞り込み</p><div class="paging" role="group" aria-labelledby="evidence-title"><button type="button" id="e-all" aria-pressed="true">全件 2,983</button><button type="button" id="e-direct" aria-pressed="false">構造記述あり 1,771</button><button type="button" id="e-source" aria-pressed="false">出典注釈のみ 522</button><button type="button" id="e-unknown" aria-pressed="false">未同定 690</button></div>
-<details class="nmp-details tips"><summary>ラベルと根拠の読み方</summary><p>「名称のある型・概念」は、演奏や作品の著名性を表すものではありません。構造記述には譜面・MIDIの照合が含まれ、全件の実聴を意味しません。指示譜の全体構造が、短い試聴にすべて含まれるとは限りません。未同定は、特徴が存在しないという意味ではありません。</p></details></details></section>
+<div class="controls controls--basic"><label>語句・試聴ID<input id="q" type="search" placeholder="例：アルベルティ・バス、ハイハット"></label><label>大分類<select id="grp"></select></label></div>
+<details class="advanced"><summary>詳細な絞り込み</summary><div class="controls"><label>パターンのまとまり<select id="fam"></select></label><label>詳細ラベル<select id="cl"></select></label><label>資料群<select id="ds"></select></label><label>項目の種類<select id="kind"></select></label><label>特徴ごとの根拠<select id="st"></select></label></div>
+<p id="evidence-title" class="muted" style="margin-bottom:.3em">試聴例全体の確認状況</p><p class="muted">「構造記述あり」は、少なくとも一つの特徴に構造の記述がある試聴例です。音源内のすべての特徴が確認済みという意味ではありません。</p><div class="paging" role="group" aria-labelledby="evidence-title"><button type="button" id="e-all" aria-pressed="true">全件 2,983</button><button type="button" id="e-direct" aria-pressed="false">構造記述あり 1,771</button><button type="button" id="e-source" aria-pressed="false">出典注釈のみ 522</button><button type="button" id="e-unknown" aria-pressed="false">未同定 690</button></div>
+<details class="nmp-details tips"><summary>項目の種類と根拠の読み方</summary><p>「特徴ごとの根拠」は、一つひとつの特徴に何を根拠として付けたかを示します。たとえば同じドラム試聴でも、6/8は配布元の拍子指定、キックの位置はMIDIの発音から確認、という場合があります。「名称のある型・概念」は、演奏や作品の著名性を示すものではありません。指示譜の全体構造が短い試聴に収まるとは限らず、構造の記述は全件の実聴を意味しません。未同定は「現在の基準で分類していない」であって、「特徴が存在しない」ではありません。</p></details></details></section>
 <div class="result-bar"><p id="result" role="status" tabindex="-1"></p><div class="paging"><button class="nmp-btn" id="player-jump" type="button" aria-controls="clip-audio" hidden>プレーヤーを操作</button><button class="nmp-btn" id="clear-all" type="button">絞り込みを解除</button></div></div>
 <div class="current-filters" id="chips" aria-label="適用中の条件"></div><p class="muted" id="priority-note" aria-live="polite"></p>
 <p id="scout-empty" hidden>一致する試聴例がありません。検索語を短くするか、条件を外してください。</p>
@@ -74,7 +74,7 @@ function syncTaxonomy(){
  const f=$('fam').value;
  options('cl',Object.keys(metaByLabel).filter(l=>{const t=metaByLabel[l];return (!g||g===t.g)&&(!f||f===t.f)&&(!types||types===t.t)}).concat(g||f||types?[]:[unknown]));
 }
-$('totals').textContent="2,983試聴ID ／ 105ラベル ／ 2,569件のラベル対応 ／ 概念未同定690例";
+$('totals').textContent="横断カタログの試聴例 2,983件 ／ 分類105項目・対応2,569件 ／ 未同定690例";
 for(const a of data){a.push(norm([a[0],a[2],a[3],a[8],...a[10].flatMap(r=>[...r.slice(0,2),tm(r).f,tm(r).t,tm(r).x||''])].join(' '))); }
 const exactIDs=new Set(data.map(a=>norm(a[0])));
 let n=0, evidenceLevel='';
@@ -126,7 +126,7 @@ function render(){
   const p=els('p'), aud=els('a','音源を別タブで開く'), src=els('a','出典を開く');
   if(mediaLink(a[6])){aud.href=mediaLink(a[6]);aud.target='_blank';aud.rel='noopener';p.append(aud);}
   if(safe(a[7])){src.href=safe(a[7]);p.append('　',src);}
-  const d=els('details');d.append(els('summary','ラベルごとの根拠・範囲'),els('p',a[9]));
+  const d=els('details');d.append(els('summary','特徴ごとの根拠と範囲'),els('p',a[9]));
   const credit=els('details');credit.append(els('summary','試聴の利用条件・帰属'),els('p',credits[a[0]][0]),els('p',credits[a[0]][1]));
   const all=els('ul');for(const r of a[10])all.append(els('li',r[1]+' → '+tm(r).f+' → '+r[0]+'［'+tm(r).t+'／'+r[2]+'］。'+r[3]+'。'+r[4]+(tm(r).x?' '+tm(r).x:'')));
   d.append(all);
@@ -142,7 +142,7 @@ function render(){
   }
   if(top.length){
     const focus=els('p',top[0][5][0]);focus.className='card-type';c.append(focus);
-    const rdetail=els('details');rdetail.append(els('summary','代表例にした根拠'));
+    const rdetail=els('details');rdetail.append(els('summary','この例を先に紹介する理由'));
     for(const r of top){
      const [why,url,scope]=r[5];
      rdetail.append(els('p',r[0]+'：'+why+'（'+scope+'）'));
@@ -225,7 +225,7 @@ for(const [event,message] of Object.entries(mediaStatus))audio.addEventListener(
  playerState.textContent=message;reflectPlayer();
 });
 function renderChips(){
- const layout={q:'検索語',grp:'大分類',ds:'資料群',fam:'まとまり',cl:'詳細ラベル',kind:'ラベルの種類',st:'根拠区分'};
+ const layout={q:'検索語',grp:'大分類',ds:'資料群',fam:'まとまり',cl:'詳細ラベル',kind:'項目の種類',st:'特徴ごとの根拠'};
  const nodes=[];
  for(const [id,label] of Object.entries(layout)){
   const target=$(id);if(!target.value.trim())continue;

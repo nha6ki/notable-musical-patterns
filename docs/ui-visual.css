@@ -1,0 +1,246 @@
+/* NMP visual layer: keeping the paper/ink palette and native controls. */
+:root{
+ --n-gutter:clamp(16px,3.4vw,32px);
+ --n-heading:clamp(2.1rem,4vw,3.45rem);
+ --n-body-font:system-ui,-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+ --n-quiet:#e9eee4;
+ --n-container:min(var(--n-width),calc(100% - 2 * var(--n-gutter)));
+}
+body[class^="page-"]{font-family:var(--n-body-font)}
+.nmp-bar .nmp-bar-inner{width:var(--n-container);min-height:66px}
+.nmp-bar .nmp-brand{flex-shrink:0;font-size:.84rem;gap:.62rem}
+.nmp-bar .nmp-brand-mark{width:40px;height:34px}
+.nmp-bar nav{gap:.3rem;margin:0}
+.nmp-bar nav a{min-height:42px;display:inline-flex;align-items:center;justify-content:center;text-align:center}
+.page-home .wrap,.page-guide .wrap,.page-explore main,.page-explore .clip-bar,.page-datasets .wrap{width:var(--n-container)}
+.page-home .hero{padding:clamp(2.6rem,5vw,4.6rem) 0 clamp(2.6rem,4.2vw,3.7rem);gap:clamp(1.5rem,4.5vw,4rem);grid-template-columns:minmax(0,1.33fr) minmax(0,1fr)}
+.page-home .hero h1{font-size:clamp(2.35rem,4.5vw,4rem);line-height:1.24;font-weight:730;letter-spacing:-.043em;margin-bottom:.45em}
+.page-home .hero .lead{color:var(--n-muted);line-height:1.82;margin-bottom:1.25rem}
+.page-home .visual{width:100%;max-width:414px;justify-self:end;padding:clamp(.85rem,2.25vw,1.65rem);border-radius:38% 38% var(--n-radius) var(--n-radius);background:#e5ecdf}
+.page-home .visual-label{padding-top:.68rem}
+.page-home .stats{gap:clamp(.4rem,3vw,1.5rem);padding:1.1rem 0}
+.page-home .stat{align-items:baseline;gap:.75rem}
+.page-home .stat strong{font-variant-numeric:tabular-nums;font-weight:670;letter-spacing:-.04em}
+.page-home .stat span,.page-home .count-note{color:var(--n-muted)}
+.page-home .section{padding:clamp(2.65rem,4.9vw,4.2rem) 0}
+.page-home .routes{gap:1rem}
+.page-home .routes .card{border-radius:var(--n-radius)}
+.page-home .reading p{color:var(--n-muted)}
+.page-explore main{padding-top:clamp(1.65rem,4vw,3rem)}
+.page-explore .section-head h1{font-size:var(--n-heading);letter-spacing:-.04em;line-height:1.2;margin:.2em 0}
+.page-explore .section-head p{max-width:64ch}
+.page-explore .search-shell{padding:clamp(.85rem,2.2vw,1.35rem)}
+.page-explore .controls input,.page-explore .controls select{min-height:44px}
+.page-explore .current-filters button{min-height:38px}
+.page-explore .card{padding:clamp(.9rem,2vw,1.2rem);margin:.75rem 0}
+.page-explore .card-headline h2{font-size:clamp(1.08rem,2vw,1.28rem);line-height:1.4;letter-spacing:-.018em}
+.page-explore .card-meta{font-size:.9rem;line-height:1.55;overflow-wrap:anywhere}
+.page-explore .card-note,.page-explore .card-notes{line-height:1.7}
+.page-explore .card-play{min-width:106px}
+.page-explore #result{font-variant-numeric:tabular-nums;font-size:clamp(1.22rem,2vw,1.55rem)}
+.page-explore #clip-player .clip-bar{padding-block:.65rem max(.65rem,env(safe-area-inset-bottom));}
+.page-explore #clip-player audio{min-width:0;display:block}
+.page-explore #clip-title{overflow-wrap:anywhere}
+@media (max-width:800px){
+ .page-home .hero{grid-template-columns:minmax(0,1fr) minmax(0,.58fr);gap:1.3rem}
+ .page-home .stats .stat{display:block}
+ .page-home .stat span{font-size:.76rem}
+}
+@media (max-width:690px){
+ .nmp-bar .nmp-bar-inner{gap:.5rem;padding:.7rem 0 .55rem}
+ .nmp-bar nav{width:100%;display:grid;grid-template-columns:.72fr 1fr 1.12fr 1.18fr;gap:.17rem}
+ .nmp-bar nav a{font-size:clamp(.71rem,3.15vw,.85rem);padding:.35rem .15rem;min-height:43px;line-height:1.2}
+ .page-home .hero{grid-template-columns:1fr;gap:1.05rem;padding:2.1rem 0 1.9rem}
+ .page-home .hero h1{font-size:clamp(2.1rem,9vw,3.05rem);line-height:1.28}
+ .page-home .hero .lead{margin-bottom:1.1rem}
+ .page-home .lead br{display:none}
+ .page-home .hero .lead{text-wrap:pretty}
+ .page-home .visual{width:min(100%,236px);justify-self:center;padding:.88rem .8rem .65rem}
+ .page-home .visual-label{font-size:.56rem;letter-spacing:.09em}
+ .page-home .stat strong{font-size:clamp(1.34rem,5.6vw,1.9rem)}
+ .page-home .stat span{display:block;font-size:.67rem;line-height:1.45}
+ .page-home .stat:not(:first-child){padding-left:.5rem}
+ .page-home .reading{gap:1.1rem}
+ .page-home .section-head h2{font-size:1.38rem;line-height:1.45}
+ .page-explore main{padding-top:1.65rem}
+ .page-explore .result-bar .paging{gap:.35rem}
+ .page-explore .result-bar .nmp-btn{font-size:.8rem;min-height:40px}
+ .page-explore .card-actions{display:flex;flex-wrap:wrap;gap:.45rem}
+ .page-explore .clip-bar{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"meta close" "media media";align-items:start}
+ .page-explore .clip-bar>div:first-child{grid-area:meta}
+ .page-explore .clip-bar>div:nth-child(2){grid-area:media}
+ .page-explore #clip-close{grid-area:close;min-height:44px;font-size:.72rem;padding:.3rem .55rem}
+}
+@media (prefers-reduced-motion:reduce){
+ .page-home .cta{transition:none}
+}
+
+/* Guide-only visual layer. Load after current styles; add page-guide to body.
+   No visibility, content, order, focus or playback behavior is changed. */
+.page-guide .wrap{width:min(calc(100% - 48px),960px)}
+.page-guide .hero{padding:2.75rem 0 1.75rem}
+.page-guide .hero h1{font-size:clamp(2.2rem,4.5vw,3.3rem);line-height:1.15;letter-spacing:-.035em;margin:.25em 0 .4em}
+.page-guide .hero .eyebrow{font-size:.75rem;letter-spacing:.12em}
+.page-guide .hero p{max-width:46rem;line-height:1.8}
+.page-guide main.wrap{padding-top:1.5rem}
+.page-guide main>section[aria-label="図鑑の絞り込み"]{padding:1.1rem 1.25rem;background:#fffdf6;border:1px solid #d5ded2;border-radius:12px}
+.page-guide #cardfilter{width:min(100%,36rem);min-height:44px;margin-top:.4rem;background:#fff}
+.page-guide #cardcount{font-size:.875rem;color:#55645b;margin:.75rem 0}
+.page-guide .guide-jump{background:#f5f5ec;border-color:#d5ded2;border-radius:8px}
+.page-guide .guide-jump summary{padding:.25rem 0;line-height:1.5}
+.page-guide .guide-jump-controls{gap:.6rem}
+.page-guide .guide-jump select{min-height:44px;flex:1 1 20rem;width:100%}
+.page-guide .guide-jump-controls label{flex-basis:100%;font-size:.875rem}
+.page-guide .group-nav{gap:.5rem;margin:.75rem 0 0}
+.page-guide .group-nav a{display:inline-flex;align-items:center;min-height:42px;padding:.35rem .7rem;font-size:.875rem;background:#f4f6ef;border-color:#d5ded2;border-radius:7px}
+.page-guide .tax-group{padding:0;margin:2.5rem 0 0;background:transparent;border:0}
+.page-guide .group-head{margin:0;padding:.8rem 0 .6rem;border-top:2px solid #b6c8b8;font-size:clamp(1.5rem,3vw,2rem);line-height:1.4}
+.page-guide .family-head{font-size:1.05rem;line-height:1.5;margin:1.2rem 0 .5rem;color:#235743}
+.page-guide .pattern-card{padding:1.5rem 1.75rem;margin:.75rem 0 1.5rem;background:#fffdf6;border-color:#d5ded2;border-radius:12px;scroll-margin-top:1rem}
+.page-guide .pattern-card>.tag{font-size:.76rem;font-weight:650;line-height:1.5;color:#55645b}
+.page-guide .pattern-card h4{font-size:clamp(1.2rem,2.2vw,1.5rem);line-height:1.5;letter-spacing:-.015em;margin:.35rem 0 .7rem}
+.page-guide .pattern-card>p{line-height:1.85}
+.page-guide .pattern-card .cases{gap:1rem;margin:1rem 0}
+.page-guide .pattern-card .example{padding:1rem 1.1rem;border-color:#d5ded2;border-radius:8px;background:#f7f8f1;min-width:0}
+.page-guide .example h5{font-size:1rem;line-height:1.6}
+.page-guide .example audio{display:block;width:100%;max-width:100%;margin:.65rem 0}
+.page-guide .pattern-card .limits{padding:.8rem 0 0;border-top:1px solid #d5ded2;line-height:1.8}
+.page-guide .cite summary,.page-guide .legacy>summary{padding:.35rem 0;line-height:1.6}
+.page-guide .card-explore{display:inline-block;line-height:1.7;padding:.3rem 0;font-weight:650}
+.page-guide .group-return a{display:inline-block;padding:.5rem 0;line-height:1.6}
+@media(max-width:600px){
+ .page-guide .wrap{width:calc(100% - 32px)}
+ .page-guide .hero{padding:1.75rem 0 1.2rem}
+ .page-guide .hero h1{font-size:2.2rem}
+ .page-guide .hero .eyebrow{letter-spacing:.075em}
+ .page-guide main.wrap{padding-top:1rem}
+ .page-guide main>section[aria-label="図鑑の絞り込み"]{padding:.85rem}
+ .page-guide .group-nav{gap:.4rem}
+ .page-guide .group-nav a{font-size:.82rem;padding:.35rem .55rem}
+ .page-guide .guide-jump{padding:.6rem .7rem}
+ .page-guide .guide-jump-controls{display:grid;grid-template-columns:minmax(0,1fr)}
+ .page-guide .guide-jump select{width:100%;max-width:100%;font-size:1rem}
+ .page-guide .guide-jump-controls button{justify-self:start;min-height:44px}
+ .page-guide .tax-group{margin-top:2rem}
+ .page-guide .pattern-card{padding:1rem;margin-bottom:1.15rem;border-radius:10px}
+ .page-guide .pattern-card h4{font-size:1.2rem}
+ .page-guide .pattern-card .cases{grid-template-columns:minmax(0,1fr)}
+ .page-guide .pattern-card .example{padding:.8rem}
+ .page-guide .legacy{padding:.4rem 0}
+ .page-guide .nmp-bar-inner{gap:.5rem}
+ .page-guide .nmp-bar nav{gap:.15rem}
+ .page-guide .nmp-bar nav a{padding:.55rem .5rem;font-size:.85rem}
+}
+
+/* Dataset catalogue polish. Load after existing styles and add page-datasets
+   to the catalogue body. No content, filtering or playback behaviour changes. */
+.page-datasets {
+  --ink: var(--n-ink, #172c23);
+  --muted: var(--n-muted, #55645b);
+  --paper: var(--n-paper, #f6f2e8);
+  --panel: var(--n-panel, #fffdf6);
+  --line: var(--n-line, #d5ded2);
+  --green: var(--n-accent, #215b43);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.75;
+}
+.page-datasets .wrap { width: min(1120px, calc(100% - 48px)); }
+.page-datasets .hero-inner { min-height: 0; padding-block: 52px 38px; }
+.page-datasets .hero h1,
+.page-datasets .section h2 {
+  font-family: var(--sans);
+  font-weight: 650;
+  letter-spacing: -.035em;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.page-datasets .hero h1 { font-size: clamp(2rem, 3.6vw, 3.2rem); margin-bottom: 18px; }
+.page-datasets .hero .lead { max-width: 46em; font-size: 1rem; line-height: 1.95; }
+.page-datasets .hero .nmp-btn { margin: 0 6px 8px 0; min-height: 44px; }
+.page-datasets .kicker { font-size: .71rem; letter-spacing: .14em; font-weight: 700; }
+.page-datasets .intro { display: grid; grid-template-columns: 1.05fr 1fr; gap: 32px; padding-block: 25px; align-items: center; }
+/* The existing metric DOM alternates strong/span; explicit cells keep
+   each label below its number without adding wrappers or pseudo-content. */
+.page-datasets .intro .metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px 18px; white-space: normal; align-items: start; }
+.page-datasets .metrics strong { font: 600 clamp(1.7rem, 2.5vw, 2.15rem)/1.2 var(--sans); font-variant-numeric: tabular-nums; letter-spacing: -.035em; }
+.page-datasets .metrics strong:nth-of-type(1),
+.page-datasets .metrics span:nth-of-type(1) { grid-column: 1; }
+.page-datasets .metrics strong:nth-of-type(2),
+.page-datasets .metrics span:nth-of-type(2) { grid-column: 2; }
+.page-datasets .metrics strong:nth-of-type(3),
+.page-datasets .metrics span:nth-of-type(3) { grid-column: 3; }
+.page-datasets .metrics strong { grid-row: 1; }
+.page-datasets .metrics span { grid-row: 2; margin: 0; color: var(--muted); font-size: .76rem; line-height: 1.55; overflow-wrap: anywhere; }
+.page-datasets .intro > p:last-child { font-size: .8rem; line-height: 1.85; }
+.page-datasets .intro a { color: var(--green); text-underline-offset: 3px; }
+.page-datasets .section { padding-block: 38px; scroll-margin-top: 20px; }
+.page-datasets .section h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); margin-bottom: 22px; }
+.page-datasets .searchbox { background: #eaf0e6; border-color: var(--line); padding: 20px; gap: 14px; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.2fr) minmax(0, 1fr) auto; }
+.page-datasets .searchbox > * { min-width: 0; }
+.page-datasets .searchbox label { font-size: .8rem; font-weight: 650; margin-bottom: 7px; }
+.page-datasets .searchbox input,
+.page-datasets .searchbox select { min-height: 46px; background: var(--panel); border-color: #93a697; border-radius: 8px; font-size: .93rem; }
+.page-datasets .searchbox button { min-height: 46px; border-radius: 8px; padding-inline: 16px; }
+.page-datasets .searchbox :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+.page-datasets #results-status { font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; margin-block: 18px 14px; }
+.page-datasets .search-note { line-height: 1.75; }
+.page-datasets .dataset-grid,
+.page-datasets .record-grid { gap: 16px; }
+.page-datasets .dataset,
+.page-datasets .record { padding: 20px; gap: 12px; border-radius: var(--n-radius, 14px); }
+.page-datasets .dataset[aria-current=true] { padding: 19px; border-color: var(--green); }
+.page-datasets .dataset h3,
+.page-datasets .record h3 { font-size: 1rem; line-height: 1.6; font-weight: 700; }
+.page-datasets .dataset p,
+.page-datasets .record p { font-size: .84rem; line-height: 1.75; }
+.page-datasets .record .cred { font-size: .78rem; }
+.page-datasets .record summary { padding-block: 5px; line-height: 1.6; }
+.page-datasets .actions { gap: 10px; padding-top: 4px; }
+.page-datasets .actions button { min-height: 44px; border-radius: 8px; }
+.page-datasets .actions .subtle { padding-block: 9px; }
+.page-datasets .tag { padding: 3px 9px; line-height: 1.5; }
+.page-datasets .pages { gap: 16px; margin-top: 26px; flex-wrap: wrap; }
+.page-datasets .pages button { min-height: 44px; }
+.page-datasets .info { border-top: 1px solid var(--line); }
+.page-datasets .info li { margin-bottom: 12px; }
+.page-datasets .player { background: #173f35; box-shadow: 0 -4px 20px #172c231a; }
+.page-datasets .playbar { grid-template-columns: minmax(0, 1fr) minmax(300px, 1.1fr) auto; gap: 18px; padding-block: 14px; padding-bottom: max(14px, env(safe-area-inset-bottom)); }
+.page-datasets .playbar > div { min-width: 0; }
+.page-datasets #playing { display: block; font-size: .9rem; line-height: 1.5; overflow-wrap: anywhere; }
+.page-datasets #player-note { line-height: 1.5; overflow-wrap: anywhere; }
+.page-datasets .playbar audio { display: block; width: 100%; min-width: 0; max-width: 100%; }
+.page-datasets #stop { min-height: 44px; white-space: nowrap; border-radius: 8px; }
+@media (max-width: 1050px) {
+  .page-datasets .intro { grid-template-columns: 1fr; gap: 20px; }
+  .page-datasets .intro .metrics { max-width: 650px; width: 100%; }
+  .page-datasets .searchbox { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; }
+  .page-datasets .filter-q { grid-column: 1 / -1; }
+  .page-datasets .record-grid,
+  .page-datasets .dataset-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 690px) {
+  .page-datasets .wrap { width: calc(100% - 30px); }
+  .page-datasets .hero-inner { padding-block: 32px 24px; }
+  .page-datasets .intro { padding-block: 22px; }
+  .page-datasets .intro .metrics { gap: 8px 12px; }
+  .page-datasets .section { padding-block: 28px; }
+  .page-datasets .searchbox { grid-template-columns: minmax(0, 1fr); padding: 16px; }
+  .page-datasets .filter-q { grid-column: auto; }
+  .page-datasets .searchbox input,
+  .page-datasets .searchbox select { font-size: 1rem; }
+  .page-datasets .record-grid,
+  .page-datasets .dataset-grid { grid-template-columns: minmax(0, 1fr); }
+  .page-datasets .dataset,
+  .page-datasets .record { padding: 18px; }
+  .page-datasets .dataset[aria-current=true] { padding: 17px; }
+  .page-datasets .playbar { grid-template-columns: minmax(0, 1fr) auto; gap: 10px; padding-top: 12px; }
+  .page-datasets .playbar > div { grid-column: 1; grid-row: 1; }
+  .page-datasets .playbar audio { grid-column: 1 / -1; grid-row: 2; }
+  .page-datasets #stop { grid-column: 2; grid-row: 1; align-self: start; }
+  .page-datasets footer .wrap { flex-wrap: wrap; gap: 10px; }
+}
+
+/* Match the header height on all four pages. */
+.nmp-bar{padding-block:0}
+@media (max-width:690px){.page-home .hero .lead{text-wrap:balance}}
