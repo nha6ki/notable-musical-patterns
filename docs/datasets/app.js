@@ -71,9 +71,9 @@ function syncPlayer(){
  const playing=!$('player').hidden&&!$('audio').paused&&!$('audio').ended;
  for(const b of $('records').querySelectorAll('button[data-play-id]')){
   const on=playing&&b.dataset.playId===activeId;
-  b.textContent=on?'一時停止':'▶ 視聴する';
+  b.textContent=on?'一時停止':'▶ 試聴する';
   b.setAttribute('aria-pressed',String(on));
-  b.setAttribute('aria-label',(on?'一時停止: ':'視聴する: ')+b.dataset.title+' ('+b.dataset.duration+')');
+  b.setAttribute('aria-label',(on?'一時停止: ':'試聴する: ')+b.dataset.title+' ('+b.dataset.duration+')');
  }
 }
 const mediaStatus={playing:'再生中',pause:'一時停止中',ended:'再生終了。もう一度聴けます。',waiting:'読み込み中…',error:'音源を読み込めませんでした。'};
@@ -105,7 +105,7 @@ function record(r){
  if(r.location)x.append(el('p',r.location));
  const a=el('div',null,'actions');
  if(canPlay(r)){
-  const b=el('button','▶ 視聴する','play nmp-btn nmp-btn--primary');
+  const b=el('button','▶ 試聴する','play nmp-btn nmp-btn--primary');
   b.type='button';b.dataset.playId=r.id;b.dataset.title=r.title;
   b.dataset.duration=(Math.round(r.seconds*10)/10)+'秒';
   b.setAttribute('aria-controls','audio');

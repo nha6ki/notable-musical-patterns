@@ -4,7 +4,7 @@
 const sources=[...document.querySelectorAll('.pattern-card audio[controls]')];
 if(!sources.length)return;
 const en=document.documentElement.lang.startsWith('en');
-const T=en?{listen:'Listen',pause:'Pause',playing:'Playing',paused:'Paused',ended:'Finished. You can listen again.',loading:'Loading…',error:'Unable to play. Try again.',blocked:'Use the playback control below to start.',close:'Close player',player:'Listening player',credit:'Evidence, sources and terms of use'}:{listen:'視聴する',pause:'一時停止',playing:'再生中',paused:'一時停止中',ended:'再生終了。もう一度聴けます。',loading:'読み込み中…',error:'再生できませんでした。もう一度お試しください。',blocked:'下の再生ボタンを押してください。',close:'プレーヤーを閉じる',player:'試聴プレーヤー',credit:'根拠・出典・利用条件'};
+const T=en?{listen:'Listen',pause:'Pause',playing:'Playing',paused:'Paused',ended:'Finished. You can listen again.',loading:'Loading…',error:'Unable to play. Try again.',blocked:'Use the playback control below to start.',close:'Close player',player:'Listening player',credit:'Evidence, sources and terms of use'}:{listen:'試聴する',pause:'一時停止',playing:'再生中',paused:'一時停止中',ended:'再生終了。もう一度聴けます。',loading:'読み込み中…',error:'再生できませんでした。もう一度お試しください。',blocked:'下の再生ボタンを押してください。',close:'プレーヤーを閉じる',player:'試聴プレーヤー',credit:'根拠・出典・利用条件'};
 const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text)n.textContent=text;return n;};
 const panel=el('aside');panel.id='guide-clip-player';panel.hidden=true;panel.setAttribute('aria-label',T.player);
 const bar=el('div','guide-clip-bar'),info=el('div','guide-clip-info'),status=el('p','guide-clip-status'),title=el('strong','guide-clip-title'),scope=el('p','guide-clip-scope');

@@ -128,8 +128,8 @@ function render(){
   const badge=els('div',(top.length?'この検索の代表例 · ':'')+(mainRel?tm(mainRel).f:'概念未同定'));badge.className='card-eyebrow';
   const title=els('h2',a[2]), meta=els('p',a[1]+' · '+a[0]+' · '+a[5]);meta.className='card-meta';
   headline.append(badge,title,meta);head.append(headline);
-  const play=els('button','▶ 視聴する');play.type='button';play.className='nmp-btn nmp-btn--primary card-play';play.dataset.playId=a[0];play.dataset.title=a[2];play.setAttribute('aria-pressed','false');
-  play.setAttribute('aria-label','視聴する：'+a[2]);
+  const play=els('button','▶ 試聴する');play.type='button';play.className='nmp-btn nmp-btn--primary card-play';play.dataset.playId=a[0];play.dataset.title=a[2];play.setAttribute('aria-pressed','false');
+  play.setAttribute('aria-label','試聴する：'+a[2]);
   play.addEventListener('click',event=>{playClip(a,play);if(event.detail===0)focusPlayer();});
   const actions=els('div');actions.className='card-actions';
   actions.append(play);head.append(actions);
@@ -188,8 +188,8 @@ function reflectPlayer(){
  for(const b of list.querySelectorAll('[data-play-id]')){
   const on=!!activeClip && b.dataset.playId===activeClip[0] && !audio.paused;
   b.setAttribute('aria-pressed',String(on));
-  b.textContent=on?'一時停止':'▶ 視聴する';
-  b.setAttribute('aria-label',(on?'一時停止：':'視聴する：')+b.dataset.title);
+  b.textContent=on?'一時停止':'▶ 試聴する';
+  b.setAttribute('aria-label',(on?'一時停止：':'試聴する：')+b.dataset.title);
  }
 }
 function playClip(a,button){
