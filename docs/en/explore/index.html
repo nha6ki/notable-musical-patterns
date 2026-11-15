@@ -31,7 +31,7 @@ body.clip-open{padding-bottom:var(--clip-pad,120px)}
 @media(max-width:690px){main,.clip-bar{width:calc(100% - 30px)}main{padding-top:1.5rem}.controls--basic,.card-top,.clip-bar{grid-template-columns:1fr}.clip-bar{gap:.32rem}.clip-bar .nmp-btn{justify-self:start}body.clip-open{padding-bottom:var(--clip-pad,225px)}}
 .card-actions{display:grid;gap:.3rem;justify-items:start}
 #clip-player :focus-visible{outline:2px solid #f6f2e8;outline-offset:3px}
-</style><link rel="stylesheet" href="../../ui-visual.css?v=unified-search-1"><link rel="canonical" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="ja" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="alternate" hreflang="en" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="x-default" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="stylesheet" href="../../i18n.css?v=1"><script defer src="../../i18n.js?v=1"></script><body class="page-explore"><a href="#q" class="nmp-skip">Skip to main content</a><header class="nmp-bar"><div class="nmp-bar-inner"><a class="nmp-brand" href="../" aria-label="Notable Musical Patterns home"><span class="nmp-brand-mark">NMP</span><span>NOTABLE MUSICAL<br>PATTERNS</span></a><nav aria-label="Main navigation"><a href="../">Home</a><a href="../explore/" aria-current="page">Search by Feature</a><a href="../datasets/">Search by Source</a><a href="../guide/">Read the Guide</a><a class="nmp-language" href="../../explore/" hreflang="ja" aria-label="Switch to Japanese">Japanese</a></nav></div></header><main id="main">
+</style><link rel="stylesheet" href="../../ui-visual.css?v=card-content-1"><link rel="canonical" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="ja" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="alternate" hreflang="en" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="x-default" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="stylesheet" href="../../i18n.css?v=1"><script defer src="../../i18n.js?v=1"></script><body class="page-explore"><a href="#q" class="nmp-skip">Skip to main content</a><header class="nmp-bar"><div class="nmp-bar-inner"><a class="nmp-brand" href="../" aria-label="Notable Musical Patterns home"><span class="nmp-brand-mark">NMP</span><span>NOTABLE MUSICAL<br>PATTERNS</span></a><nav aria-label="Main navigation"><a href="../">Home</a><a href="../explore/" aria-current="page">Search by Feature</a><a href="../datasets/">Search by Source</a><a href="../guide/">Read the Guide</a><a class="nmp-language" href="../../explore/" hreflang="ja" aria-label="Switch to Japanese">Japanese</a></nav></div></header><main id="main">
 <header class="section-head"><div class="eyebrow">01 / EXPLORE BY CONCEPT</div><h1 class="nmp-page-title">Search by Feature</h1><p class="nmp-page-lead">Find and compare short clips by musical feature, work title, or source. Switch the availability filter to include external listening links or reference material. To learn what to listen for, <a href="../guide/">read the guide</a>.</p><p class="muted" id="totals"></p></header>
 <section class="search-shell" aria-label="Listening clip search filters">
 <div class="controls controls--basic"><label>Availability<select id="mode"><option value="audio">Listen here</option><option value="external">External listening</option><option value="material">Reference material</option><option value="all">All entries</option><option value="without">All entries without on-site audio</option><option value="reference">Source references</option><option value="analysis">Metadata and analysis</option></select></label><label>Search terms or clip ID<input id="q" type="search" placeholder="e.g. Alberti bass, hi-hat"></label><label>Category<select id="grp"></select></label></div>
@@ -154,17 +154,25 @@ function addRecordLink(parent,raw,text){
   const a=recordField('a',text);a.href=url.href;a.rel='noopener noreferrer';parent.append(a);
  }catch{}
 }
+function addCardMeta(card,parts){
+ const text=parts.filter(Boolean).map(recordText).join(' · ');
+ if(text){const p=recordField('p',text);p.className='card-meta';card.append(p);}
+}
+function availabilityBadge(text,kind){
+ const e=els('span',text);e.className='feature-card-tag availability-tag '+kind;return e;
+}
 function renderReference(card,row,d){
- const names={external:'External listening',reference:'Source reference',analysis:'Metadata and analysis'};
- const badge=els('span',names[row.mode]||'Source reference');badge.className='feature-card-tag reference-tag';
- const meta=recordField('p',[d.title,row.id,row.category,row.location].filter(Boolean).map(recordText).join(' · '));meta.className='card-meta';
- card.append(badge,recordField('h2',row.title),meta);
- if(row.detail){const p=recordField('p',row.detail);p.className='card-notes';card.append(p);}
+ const external=Boolean(row.listeningUrl);
+ const badge=availabilityBadge(external?'External listening':'Reference only',external?'is-external':'is-reference');
+ card.append(badge,recordField('h2',row.title));
+ addCardMeta(card,[d.title,row.id,row.category!==row.title?row.category:'']);
+ if(row.location&&row.location!==row.title&&row.location!==row.category)addCardMeta(card,['Source location: '+recordText(row.location)]);
  const actions=els('div');actions.className='card-actions';
  addRecordLink(actions,row.listeningUrl,row.listeningLabel||'External listening link');
  addRecordLink(actions,row.externalUrl,row.externalLabel||'Related material');
  if(actions.childElementCount)card.append(actions);
- if(row.listeningNote){const p=recordField('p',row.listeningNote);p.className='card-meta';card.append(p);}
+ if(row.listeningNote){const p=recordField('p',row.listeningNote);p.className='card-listening-note';card.append(p);}
+ if(row.detail&&row.detail!==row.listeningNote){const p=recordField('p',row.detail);p.className='card-notes';card.append(p);}
  const detail=els('details');detail.className='nmp-details';detail.append(els('summary','Source, attribution and usage terms'));
  addRecordLink(detail,row.source||d.source,row.linkLabel==='出典 ↗'?'View source':(row.linkLabel||'View source'));
  if(row.credit)detail.append(recordField('p',row.credit));
@@ -206,11 +214,13 @@ function render(){
   const top=priority.get(a[0]);
   const matching=a[10].filter(r=>byTaxonomy(r,g,f,label,type)&&(!st||st===r[2]));
   const mainRel=top[0]||matching[0]||a[10][0];
-  const badge=els('span',(top.length?'Representative for this search · ':'')+(mainRel?tm(mainRel).f:'概念未同定'));badge.className='feature-card-tag';
-  const title=els('h2',a[2]), meta=els('p',en(a[1])+' · '+(/[\u3040-\u30ff\u3400-\u9fff]/.test(a[0])?'Source record: ':'')+en(a[0])+' · '+en(a[5]));meta.className='card-meta';
-  c.append(badge,title,meta);
-  if(row.kind||row.category){const p=recordField('p',[row.kind,row.category].filter(Boolean).map(recordText).join(' · '));p.className='card-meta';c.append(p);}
-  if(row.detail){const p=recordField('p',row.detail);p.className='card-meta';c.append(p);}
+  const badges=els('div');badges.className='card-badges';
+  badges.append(availabilityBadge('On-site audio','is-audio'));
+  const group=els('span',mainRel?tm(mainRel).f:'Unclassified');group.className='feature-card-tag';badges.append(group);
+  if(top.length){const b=els('span','Representative for this search');b.className='feature-card-tag representative-tag';badges.append(b);}
+  c.append(badges,els('h2',a[2]));
+  addCardMeta(c,[dataset.title,row.id,row.kind]);
+  if(row.location)addCardMeta(c,['Excerpt: '+recordText(row.location)]);
   const play=els('button','▶ Listen');play.type='button';play.className='nmp-btn nmp-btn--primary card-play';play.dataset.playId=a[0];play.dataset.title=en(a[2]);play.setAttribute('aria-pressed','false');
   play.setAttribute('aria-label','Listen: '+en(a[2]));
   play.addEventListener('click',event=>{playClip(a,play);if(event.detail===0)focusPlayer();});
@@ -234,10 +244,20 @@ function render(){
     body.append(all);
   }
   if(evidence.tags){const p=els('p','Other tags (may include uncategorized terms): '+evidence.tags);p.className='evidence-tags';body.append(p);}
+  if(row.detail&&row.detail!==evidence.overview){
+    const p=recordField('p','Catalogue note: '+recordText(row.detail));p.className='evidence-catalogue-note';body.append(p);
+  }
+  if(row.category&&row.category!==row.title&&row.category!==mainRel?.[0]){
+    const p=recordField('p','Catalogue category: '+recordText(row.category));p.className='evidence-catalogue-note';body.append(p);
+  }
   d.append(body);
   const credit=els('details');credit.append(els('summary','Sources, attribution and usage terms'),...sourceLinks(a,top,'p'),els('p',credits[a[0]][0]),els('p',credits[a[0]][1]));
-  let listening=mainRel ? mainRel[0]+' ｜ '+ (mainRel[2]==='出典注釈'?'Source annotation: not necessarily verified in this excerpt':'Structural description of the clip'):'No concept has been identified for this clip';
-  const note=els('p',listening);note.className='card-notes';c.append(note);
+  if(mainRel){
+    const note=els('p');note.className='card-notes';
+    note.append(els('strong',mainRel[0]));
+    if(mainRel[2]==='出典注釈'){const p=els('span','Source annotation; not necessarily verified in this excerpt');p.className='card-feature-caution';note.append(p);}
+    c.append(note);
+  }
   if(mainRel && Object.prototype.hasOwnProperty.call(guideAnchors,mainRel[0])){
     const ref=els('a','Read the guide');
     ref.href='../guide/#'+guideAnchors[mainRel[0]];

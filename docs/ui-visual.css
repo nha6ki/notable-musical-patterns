@@ -446,3 +446,11 @@ body[class^="page-"] .nmp-page-title {
 .page-explore #results{scroll-margin-block-start:1rem;}
 .page-explore .feature-record .card-actions a{display:inline-flex;align-items:center;min-height:44px;}
 @media(max-width:690px){.page-explore .controls--basic{grid-template-columns:minmax(0,1fr);}}
+
+/* A result card leads with its availability, then the feature or source. */
+.page-explore .card-badges{display:flex;flex-wrap:wrap;gap:.35rem;align-items:flex-start;}
+.page-explore .feature-card-tag.availability-tag.is-external{background:#e4eef7;color:#274467;}
+.page-explore .feature-card-tag.availability-tag.is-reference{background:#edf0eb;color:#40564a;}
+.page-explore .representative-tag{background:#f1ead2;color:#604b20;}
+.page-explore .card-feature-caution,.page-explore .card-listening-note{display:block;font-size:.8rem;color:var(--n-muted);line-height:1.55;margin:0;}
+.page-explore .evidence-catalogue-note{color:var(--n-muted);}

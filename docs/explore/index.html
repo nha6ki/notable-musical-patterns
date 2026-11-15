@@ -31,7 +31,7 @@ body.clip-open{padding-bottom:var(--clip-pad,120px)}
 @media(max-width:690px){main,.clip-bar{width:calc(100% - 30px)}main{padding-top:1.5rem}.controls--basic,.card-top,.clip-bar{grid-template-columns:1fr}.clip-bar{gap:.32rem}.clip-bar .nmp-btn{justify-self:start}body.clip-open{padding-bottom:var(--clip-pad,225px)}}
 .card-actions{display:grid;gap:.3rem;justify-items:start}
 #clip-player :focus-visible{outline:2px solid #f6f2e8;outline-offset:3px}
-</style><link rel="stylesheet" href="../ui-visual.css?v=unified-search-1"><link rel="canonical" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="alternate" hreflang="ja" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="alternate" hreflang="en" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="x-default" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="stylesheet" href="../i18n.css?v=1"><script defer src="../i18n.js?v=1"></script><body class="page-explore"><a href="#q" class="nmp-skip">検索欄へ移動</a><header class="nmp-bar"><div class="nmp-bar-inner"><a class="nmp-brand" href="../" aria-label="Notable Musical Patterns トップ"><span class="nmp-brand-mark">NMP</span><span>NOTABLE MUSICAL<br>PATTERNS</span></a><nav aria-label="主要ナビゲーション"><a href="../">Home</a><a href="../explore/index.html" aria-current="page">特徴から探す</a><a href="../datasets/">資料から探す</a><a href="../guide/index.html">解説を読む</a><a class="nmp-language" href="../en/explore/" lang="en" hreflang="en" aria-label="Switch to English">EN</a></nav></div></header><main id="main">
+</style><link rel="stylesheet" href="../ui-visual.css?v=card-content-1"><link rel="canonical" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="alternate" hreflang="ja" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="alternate" hreflang="en" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="x-default" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="stylesheet" href="../i18n.css?v=1"><script defer src="../i18n.js?v=1"></script><body class="page-explore"><a href="#q" class="nmp-skip">検索欄へ移動</a><header class="nmp-bar"><div class="nmp-bar-inner"><a class="nmp-brand" href="../" aria-label="Notable Musical Patterns トップ"><span class="nmp-brand-mark">NMP</span><span>NOTABLE MUSICAL<br>PATTERNS</span></a><nav aria-label="主要ナビゲーション"><a href="../">Home</a><a href="../explore/index.html" aria-current="page">特徴から探す</a><a href="../datasets/">資料から探す</a><a href="../guide/index.html">解説を読む</a><a class="nmp-language" href="../en/explore/" lang="en" hreflang="en" aria-label="Switch to English">EN</a></nav></div></header><main id="main">
 <header class="section-head"><div class="eyebrow">01 / EXPLORE BY CONCEPT</div><h1 class="nmp-page-title">特徴から探す</h1><p class="nmp-page-lead">リズムや和音などの特徴、作品名・出典から試聴例を探して聴き比べられます。表示を切り替えると、外部試聴や資料のみの項目も検索できます。特徴の意味や聴きどころは<a href="../guide/">解説を読む</a>へ。</p><p class="muted" id="totals"></p></header>
 <section class="search-shell" aria-label="試聴例の検索条件">
 <div class="controls controls--basic"><label>試聴・資料の表示<select id="mode"><option value="audio">サイト内試聴</option><option value="external">外部試聴</option><option value="material">資料のみ</option><option value="all">すべて</option><option value="without">サイト内音声なし（全件）</option><option value="reference">出典参照</option><option value="analysis">メタデータ・分析</option></select></label><label>語句・試聴ID<input id="q" type="search" placeholder="例：アルベルティ・バス、ハイハット"></label><label>大分類<select id="grp"></select></label></div>
@@ -137,17 +137,25 @@ function addRecordLink(parent,raw,text){
   const a=recordField('a',text);a.href=url.href;a.rel='noopener noreferrer';parent.append(a);
  }catch{}
 }
+function addCardMeta(card,parts){
+ const text=parts.filter(Boolean).map(recordText).join(' · ');
+ if(text){const p=recordField('p',text);p.className='card-meta';card.append(p);}
+}
+function availabilityBadge(text,kind){
+ const e=els('span',text);e.className='feature-card-tag availability-tag '+kind;return e;
+}
 function renderReference(card,row,d){
- const names={external:'外部試聴',reference:'出典参照',analysis:'メタデータ・分析'};
- const badge=els('span',names[row.mode]||'出典参照');badge.className='feature-card-tag reference-tag';
- const meta=recordField('p',[d.title,row.id,row.category,row.location].filter(Boolean).map(recordText).join(' · '));meta.className='card-meta';
- card.append(badge,recordField('h2',row.title),meta);
- if(row.detail){const p=recordField('p',row.detail);p.className='card-notes';card.append(p);}
+ const external=Boolean(row.listeningUrl);
+ const badge=availabilityBadge(external?'外部試聴':'資料のみ',external?'is-external':'is-reference');
+ card.append(badge,recordField('h2',row.title));
+ addCardMeta(card,[d.title,row.id,row.category!==row.title?row.category:'']);
+ if(row.location&&row.location!==row.title&&row.location!==row.category)addCardMeta(card,['資料の箇所：'+recordText(row.location)]);
  const actions=els('div');actions.className='card-actions';
  addRecordLink(actions,row.listeningUrl,row.listeningLabel||'外部試聴リンク');
  addRecordLink(actions,row.externalUrl,row.externalLabel||'関連資料');
  if(actions.childElementCount)card.append(actions);
- if(row.listeningNote){const p=recordField('p',row.listeningNote);p.className='card-meta';card.append(p);}
+ if(row.listeningNote){const p=recordField('p',row.listeningNote);p.className='card-listening-note';card.append(p);}
+ if(row.detail&&row.detail!==row.listeningNote){const p=recordField('p',row.detail);p.className='card-notes';card.append(p);}
  const detail=els('details');detail.className='nmp-details';detail.append(els('summary','出典・帰属・利用条件'));
  addRecordLink(detail,row.source||d.source,row.linkLabel==='出典 ↗'?'出典を開く':(row.linkLabel||'出典を開く'));
  if(row.credit)detail.append(recordField('p',row.credit));
@@ -189,11 +197,13 @@ function render(){
   const top=priority.get(a[0]);
   const matching=a[10].filter(r=>byTaxonomy(r,g,f,label,type)&&(!st||st===r[2]));
   const mainRel=top[0]||matching[0]||a[10][0];
-  const badge=els('span',(top.length?'この検索の代表例 · ':'')+(mainRel?tm(mainRel).f:'概念未同定'));badge.className='feature-card-tag';
-  const title=els('h2',a[2]), meta=els('p',a[1]+' · '+a[0]+' · '+a[5]);meta.className='card-meta';
-  c.append(badge,title,meta);
-  if(row.kind||row.category){const p=recordField('p',[row.kind,row.category].filter(Boolean).map(recordText).join(' · '));p.className='card-meta';c.append(p);}
-  if(row.detail){const p=recordField('p',row.detail);p.className='card-meta';c.append(p);}
+  const badges=els('div');badges.className='card-badges';
+  badges.append(availabilityBadge('サイト内試聴','is-audio'));
+  const group=els('span',mainRel?tm(mainRel).f:'概念未同定');group.className='feature-card-tag';badges.append(group);
+  if(top.length){const b=els('span','この検索の代表例');b.className='feature-card-tag representative-tag';badges.append(b);}
+  c.append(badges,els('h2',a[2]));
+  addCardMeta(c,[dataset.title,row.id,row.kind]);
+  if(row.location)addCardMeta(c,['試聴区間：'+recordText(row.location)]);
   const play=els('button','▶ 試聴する');play.type='button';play.className='nmp-btn nmp-btn--primary card-play';play.dataset.playId=a[0];play.dataset.title=a[2];play.setAttribute('aria-pressed','false');
   play.setAttribute('aria-label','試聴する：'+a[2]);
   play.addEventListener('click',event=>{playClip(a,play);if(event.detail===0)focusPlayer();});
@@ -217,10 +227,20 @@ function render(){
     body.append(all);
   }
   if(evidence.tags){const p=els('p','その他の参考タグ（分類外を含む）：'+evidence.tags);p.className='evidence-tags';body.append(p);}
+  if(row.detail&&row.detail!==evidence.overview){
+    const p=recordField('p','資料の説明：'+recordText(row.detail));p.className='evidence-catalogue-note';body.append(p);
+  }
+  if(row.category&&row.category!==row.title&&row.category!==mainRel?.[0]){
+    const p=recordField('p','資料上の分類：'+recordText(row.category));p.className='evidence-catalogue-note';body.append(p);
+  }
   d.append(body);
   const credit=els('details');credit.append(els('summary','出典・帰属・利用条件'),...sourceLinks(a,top,'p'),els('p',credits[a[0]][0]),els('p',credits[a[0]][1]));
-  let listening=mainRel ? mainRel[0]+' ｜ '+ (mainRel[2]==='出典注釈'?'出典注釈：試聴区間で確認したとは限りません':'試聴例の構造記述'):'この試聴例の概念は未同定';
-  const note=els('p',listening);note.className='card-notes';c.append(note);
+  if(mainRel){
+    const note=els('p');note.className='card-notes';
+    note.append(els('strong',mainRel[0]));
+    if(mainRel[2]==='出典注釈'){const p=els('span','出典注釈。試聴区間で確認したとは限りません。');p.className='card-feature-caution';note.append(p);}
+    c.append(note);
+  }
   if(mainRel && Object.prototype.hasOwnProperty.call(guideAnchors,mainRel[0])){
     const ref=els('a','解説を読む');
     ref.href='../guide/#'+guideAnchors[mainRel[0]];
