@@ -4,8 +4,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Browse datasets | Notable Musical Patterns</title>
 <meta name="description" content="Explore musical examples and sources across 16 datasets and source collections.">
-<link rel="stylesheet" href="../../datasets/style.css"><link rel="stylesheet" href="../../ui-shared.css?v=listen-1"><script src="../../datasets/data.js" defer></script><script src="../../datasets/supplement.js?v=historical2" defer></script><script src="./app.js?v=source-label-1" defer></script>
-<style>.hero{background:var(--n-paper);color:var(--n-ink)}.hero .lead{color:var(--n-muted)}.hero .kicker{color:var(--n-accent)}.hero-inner{gap:1.3rem;padding-block:2rem}.hero-art{display:none}.hero-inner>div:first-child{grid-column:1/-1}.hero h1{font-size:clamp(2.15rem,5vw,3.35rem)}.dataset,.record,.searchbox{border-radius:var(--n-radius)}#player :focus-visible{outline:2px solid #f6f2e8;outline-offset:3px}</style><link rel="stylesheet" href="../../ui-visual.css?v=visual-5"><link rel="canonical" href="https://nha6ki.github.io/notable-musical-patterns/en/datasets/"><link rel="alternate" hreflang="ja" href="https://nha6ki.github.io/notable-musical-patterns/datasets/"><link rel="alternate" hreflang="en" href="https://nha6ki.github.io/notable-musical-patterns/en/datasets/"><link rel="alternate" hreflang="x-default" href="https://nha6ki.github.io/notable-musical-patterns/datasets/"><link rel="stylesheet" href="../../i18n.css?v=1"><script defer src="../../i18n.js?v=1"></script></head>
+<link rel="stylesheet" href="../../datasets/style.css"><link rel="stylesheet" href="../../ui-shared.css?v=consistency-1"><script src="../../datasets/data.js" defer></script><script src="../../datasets/supplement.js?v=historical2" defer></script><script src="./app.js?v=ui-consistency-1" defer></script>
+<style>.hero{background:var(--n-paper);color:var(--n-ink)}.hero .lead{color:var(--n-muted)}.hero .kicker{color:var(--n-accent)}.hero-inner{gap:1.3rem;padding-block:2rem}.hero-art{display:none}.hero-inner>div:first-child{grid-column:1/-1}.hero h1{font-size:clamp(2.15rem,5vw,3.35rem)}.dataset,.record,.searchbox{border-radius:var(--n-radius)}#player :focus-visible{outline:2px solid #f6f2e8;outline-offset:3px}</style><link rel="stylesheet" href="../../ui-visual.css?v=consistency-1"><link rel="canonical" href="https://nha6ki.github.io/notable-musical-patterns/en/datasets/"><link rel="alternate" hreflang="ja" href="https://nha6ki.github.io/notable-musical-patterns/datasets/"><link rel="alternate" hreflang="en" href="https://nha6ki.github.io/notable-musical-patterns/en/datasets/"><link rel="alternate" hreflang="x-default" href="https://nha6ki.github.io/notable-musical-patterns/datasets/"><link rel="stylesheet" href="../../i18n.css?v=1"><script defer src="../../i18n.js?v=1"></script></head>
 <body class="page-datasets">
 <a href="#explore" class="nmp-skip">Skip to main content</a>
 <header class="nmp-bar"><div class="nmp-bar-inner"><a class="nmp-brand" href="../" aria-label="Notable Musical Patterns home"><span class="nmp-brand-mark">NMP</span><span>NOTABLE MUSICAL<br>PATTERNS</span></a><nav aria-label="Main navigation"><a href="../">Home</a><a href="../explore/">Explore</a><a href="../datasets/" aria-current="page">Datasets</a><a href="../guide/">Field guide</a><a class="nmp-language" href="../../datasets/" hreflang="ja" aria-label="Switch to Japanese">Japanese</a></nav></div></header>
@@ -23,13 +23,13 @@
  <div class="filter-q"><label for="query">Title, style, instrument or ID</label><input id="query" type="search" placeholder="Try samba, blues, Syrtos or funk"></div>
  <div><label for="dataset">Datasets and source collections</label><select id="dataset"><option value="">All</option></select></div>
  <div><label for="mode">Show</label><select id="mode"><option value="">All</option><option value="audio">On-site audio</option><option value="external">External listening links</option><option value="without">Reference only</option><option value="reference">Source references</option><option value="analysis">Metadata and analysis</option></select></div>
- <button id="clear" type="button">Clear</button>
+ <button id="clear" class="nmp-btn" type="button">Clear filters</button>
 </div>
 <p id="scope" class="search-note"></p>
 <p id="results-status" role="status" aria-live="polite" tabindex="-1"></p>
 <ul id="records" class="record-grid"></ul>
 <p id="empty" hidden>No entries match. Try a shorter search or remove a filter.</p>
-<nav id="pagination" class="pages" aria-label="Search results pages"><button type="button" id="prev">← Previous</button><span id="page-number"></span><button type="button" id="next">Next →</button></nav>
+<nav id="pagination" class="pages" aria-label="Search results pages"><button type="button" id="prev" class="nmp-btn">Previous</button><span id="page-number"></span><button type="button" id="next" class="nmp-btn">Next</button></nav>
 </section>
 <section class="wrap section" id="sources" aria-labelledby="sources-title">
 <p class="kicker">SOURCES</p><h2 id="sources-title">Choose a dataset or source collection</h2>
@@ -41,7 +41,7 @@
 </section>
 <noscript><div class="wrap">Enable JavaScript to use the searchable catalogue.</div></noscript>
 </main>
-<aside class="player" id="player" hidden aria-label="Audio player"><div class="wrap playbar"><div><p class="kicker">NOW PLAYING</p><strong id="playing"></strong><p id="player-note" role="status"></p></div><audio controls preload="none" id="audio" tabindex="0"></audio><button type="button" id="stop">Close ×</button></div></aside>
-<footer><div class="wrap"><b>NMP</b><span>Notable Musical Patterns</span><a href="#title">Back to top ↑</a></div></footer>
+<aside class="player" id="player" hidden aria-label="Audio player"><div class="wrap playbar"><div><p id="player-note" role="status" aria-live="polite"></p><strong id="playing"></strong><p id="player-scope"></p><div id="player-source"></div></div><audio controls preload="none" id="audio" tabindex="0"></audio><button type="button" id="stop" class="nmp-btn">Close player</button></div></aside>
+<footer class="nmp-site-footer"><div class="nmp-site-footer-inner"><span>Notable Musical Patterns</span><nav aria-label="Footer navigation"><a href="release-notes.html">Coverage and terms</a><a href="#title">Back to top ↑</a></nav></div></footer>
 </body>
 </html>

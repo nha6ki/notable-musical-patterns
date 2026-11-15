@@ -400,3 +400,19 @@ body[class^="page-"] .nmp-page-title {
 /* The guide starts on the same grid line, but keeps a narrower reading measure. */
 .page-guide main.wrap { width:var(--n-container); }
 .page-guide main.wrap>section,.page-guide main.wrap>.guide-evidence { max-width:960px; }
+
+/* Align repeated search and player controls without changing page layouts. */
+.page-explore nav.paging,.page-datasets .pages {
+  justify-content:center;gap:.75rem;margin-block:1.5rem 0;
+}
+.page-explore nav.paging .nmp-btn,.page-datasets .pages .nmp-btn {min-height:44px;}
+.page-guide #clear-guide {margin:.3rem 0 .3rem .35rem;}
+.page-datasets #player {max-height:65vh;overflow:auto;}
+.page-datasets #player-note {font-size:.75rem;letter-spacing:.06em;margin:0 0 .2rem;color:#c9dfcf;}
+.page-datasets #player-scope {font-size:.78rem;margin:.2rem 0 0;color:#d5e2da;overflow-wrap:anywhere;}
+.page-datasets #player-source details {font-size:.85rem;margin-top:.35rem;}
+.page-datasets #player-source summary {cursor:pointer;}
+.page-datasets #player-source details[open] {max-height:10rem;overflow:auto;}
+.page-datasets #player-source .cred {margin-block:.4rem;}
+.page-datasets #player-source a {color:inherit;}
+.page-datasets #player :focus-visible {outline:2px solid #f6f2e8;outline-offset:3px;}

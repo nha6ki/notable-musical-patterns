@@ -97,6 +97,7 @@ function play(r,btn,keyboard){
  if(activeId===r.id&&!$('player').hidden&&!audio.paused){audio.pause();syncPlayer();return;}
  if(activeId===r.id&&!$('player').hidden&&!audio.error){
   lastButton=btn;
+  $('player-note').textContent='Loading…';
   if(audio.ended)audio.currentTime=0;
   if(keyboard)audio.focus({preventScroll:true});
   beginPlayback(id);
@@ -106,7 +107,8 @@ function play(r,btn,keyboard){
  lastButton=btn;activeId=r.id;$('playing').textContent=localize(r.title);$('player').hidden=false;
  $('player-note').textContent='Loading…';
  const uri=new URL(r.file,catalogueBase).href;
- $('player-note').textContent=localize(r.kind||'Listen')+(r.location?' · '+localize(r.location):'');
+ $('player-scope').textContent=localize(r.kind||'Listen')+(r.location?' · '+localize(r.location):'');
+ $('player-source').replaceChildren();add($('player-source'),sourceDetails(r,map.get(r.dataset)));
  audio.src=uri;syncPlayer();
  if(keyboard)audio.focus({preventScroll:true});
  beginPlayback(id);
@@ -124,13 +126,29 @@ function syncPlayer(){
   b.setAttribute('aria-label',(on?'Pause: ':'Listen: ')+b.dataset.title+' ('+b.dataset.duration+')');
  }
 }
-for(const event of ['playing','pause','ended','error'])$('audio').addEventListener(event,syncPlayer);
-$('stop').addEventListener('click',()=>{
+const mediaStatus={playing:'Playing',pause:'Paused',ended:'Finished. You can listen again.',waiting:'Loading…',error:'The audio could not be loaded.'};
+for(const [event,message] of Object.entries(mediaStatus))$('audio').addEventListener(event,()=>{
+ const audio=$('audio');
+ if(!activeId||$('player').hidden)return;
+ if(event==='pause'&&(!audio.paused||audio.readyState===0||audio.ended))return;
+ if(event==='playing'&&audio.paused)return;
+ if(event==='ended'&&!audio.ended)return;
+ if(event==='error'&&!audio.error)return;
+ $('player-note').textContent=message;syncPlayer();
+});
+function closePlayer(){
  request++;activeId=null;
  const a=$('audio');a.pause();a.removeAttribute('src');a.load();$('player').hidden=true;
+ $('player-source').replaceChildren();
  syncPlayer();(lastButton?.isConnected?lastButton:q).focus();
-});
- $('audio').addEventListener('error',()=>{if(activeId)$('player-note').textContent='The audio could not be loaded.';});
+}
+$('stop').addEventListener('click',closePlayer);
+$('player').addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();closePlayer();}});
+function sourceDetails(r,d){
+ const sourceLink=link(r.linkLabel==='出典 ↗'?'View source':(localize(r.linkLabel)||'View source'),r.source||d.source);
+ if(sourceLink||r.credit||r.license){const det=el('details');det.append(el('summary','Sources, attribution and usage terms'));add(det,sourceLink);if(r.credit)det.append(field('p',r.credit,'cred'));if(r.license)det.append(field('p',r.license,'cred'));add(det,link('Usage terms ↗',r.licenseUrl||d.licenseUrl));return det;}
+ return null;
+}
 function record(r){
  const d=map.get(r.dataset), x=el('li',null,'record');x.dataset.recordId=r.id;
  x.append(el('span',modeNames[r.mode]+' · '+localize(r.kind||r.category||d.title),'tag tag-'+r.mode),field('h3',r.title),field('p',localize(d.title)+(r.category?' / '+localize(r.category):'')),field('p',r.detail));
@@ -144,9 +162,9 @@ function record(r){
   b.addEventListener('click',event=>play(r,b,event.detail===0));a.append(b);
  }
  if(r.listeningUrl) add(a,link(localize(r.listeningLabel)||'Listen externally ↗',r.listeningUrl));
- const sourceLink=link(r.linkLabel==='出典 ↗'?'View source':(localize(r.linkLabel)||'View source'),r.source||d.source);add(a,link(localize(r.externalLabel)||'Related material ↗',r.externalUrl));
+ add(a,link(localize(r.externalLabel)||'Related material ↗',r.externalUrl));
  x.append(a);if([r.title,r.category,r.detail,r.location,r.credit].some(s=>hasJapanese(localize(s))))x.append(el('p','Some catalogue text is retained in Japanese to preserve the original wording.','search-note'));if(r.listeningNote)x.append(field('p',r.listeningNote));
- if(sourceLink||r.credit||r.license){const det=el('details');det.append(el('summary','Sources, attribution and usage terms'));add(det,sourceLink);if(r.credit)det.append(field('p',r.credit,'cred'));if(r.license)det.append(field('p',r.license,'cred'));add(det,link('Usage terms ↗',r.licenseUrl||d.licenseUrl));x.append(det);}
+ add(x,sourceDetails(r,d));
  return x;
 }
 function render(){
@@ -154,7 +172,7 @@ function render(){
  const f=rows.filter(r=>(!ds.value||ds.value===r.dataset)&&(!mode.value||(mode.value==='without'?r.releaseKind==='source_only':mode.value==='audio'?canPlay(r):mode.value==='external'?!!r.listeningUrl:mode.value===r.mode))&&words.every(w=>r.search.includes(w)));
  const pages=Math.max(1,Math.ceil(f.length/size));p=Math.min(p,pages-1);
  $('scope').textContent=ds.value?(catalogueIntroductions[ds.value]||map.get(ds.value).summary):'External links may not match the same performance or passage. Entries without listening links are also searchable.';
- $('results-status').textContent=n(f.length)+' matching entries (on-site audio: '+n(f.filter(canPlay).length)+' / reference only: '+n(f.filter(r=>r.releaseKind==='source_only').length)+')';
+ $('results-status').textContent=n(f.length)+(f.length===1?' matching entry':' matching entries')+' (on-site audio: '+n(f.filter(canPlay).length)+' / reference only: '+n(f.filter(r=>r.releaseKind==='source_only').length)+')';
  $('records').replaceChildren(...f.slice(p*size,p*size+size).map(record));syncPlayer();
  $('empty').hidden=!!f.length;$('pagination').hidden=pages<=1;
  $('page-number').textContent=(p+1)+' / '+pages;$('prev').disabled=p===0;$('next').disabled=p+1>=pages;

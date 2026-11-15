@@ -42,3 +42,53 @@
 .nmp-btn.nmp-btn--primary:is(.card-play,.play,.guide-listen)[aria-pressed="true"]:hover{
   background:#c9dfd0;
 }
+
+/* Source disclosures share presentation, not evidence or licensing meaning.
+   Scoped to result/example cards: filters and player controls stay unchanged. */
+:is(details.nmp-source-disclosure,.page-guide details.cite,.page-explore .card details,.page-datasets .record details) {
+  margin-block-start:.75rem;
+  padding-block-start:.35rem;
+  border-block-start:1px solid var(--n-line);
+  color:var(--n-muted);
+  font-size:.9rem;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+:is(details.nmp-source-disclosure,.page-guide details.cite,.page-explore .card details,.page-datasets .record details)>summary {
+  box-sizing:border-box;
+  min-block-size:2.75rem;
+  padding-block:.6rem;
+  color:var(--n-accent);
+  font-size:.9rem;
+  font-weight:650;
+  line-height:1.6;
+  cursor:pointer;
+}
+:is(details.nmp-source-disclosure,.page-guide details.cite,.page-explore .card details,.page-datasets .record details)>summary:focus-visible {
+  outline:2px solid var(--n-accent);
+  outline-offset:3px;
+  border-radius:3px;
+}
+:is(details.nmp-source-disclosure,.page-guide details.cite,.page-explore .card details,.page-datasets .record details) a {
+  color:var(--n-accent);
+  font-size:inherit;
+  font-weight:650;
+  text-decoration:underline;
+  text-decoration-thickness:1px;
+  text-underline-offset:.2em;
+  overflow-wrap:anywhere;
+}
+:is(details.nmp-source-disclosure,.page-guide details.cite,.page-explore .card details,.page-datasets .record details) a:hover {
+  text-decoration-thickness:2px;
+}
+:is(details.nmp-source-disclosure,.page-guide details.cite,.page-explore .card details,.page-datasets .record details) a:focus-visible {
+  outline:2px solid var(--n-accent);
+  outline-offset:3px;
+}
+
+/* Common footer across the Japanese and English site. */
+body footer.nmp-site-footer{display:block;width:auto;margin:0;padding:1.25rem 0;border-top:1px solid var(--n-line);background:var(--n-paper);color:var(--n-muted);font:400 .85rem/1.6 var(--n-body-font,system-ui,sans-serif)}
+body .nmp-site-footer-inner{width:var(--n-container,min(1120px,calc(100% - 32px)));margin:auto;display:flex;align-items:center;justify-content:space-between;gap:.75rem 1.5rem;flex-wrap:wrap}
+body .nmp-site-footer nav{display:flex;gap:.5rem 1.25rem;flex-wrap:wrap;margin:0;padding:0}
+body .nmp-site-footer nav a{display:inline-flex;align-items:center;min-height:44px;margin:0;padding:.25rem 0;border:0;border-radius:0;background:transparent;color:var(--n-accent);font:inherit;text-decoration:underline;text-underline-offset:.2em}
+body .nmp-site-footer a:focus-visible{outline:2px solid var(--n-accent);outline-offset:3px}

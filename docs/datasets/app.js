@@ -47,6 +47,7 @@ function play(r,btn,keyboard){
  if(activeId===r.id&&!$('player').hidden&&!audio.paused){audio.pause();syncPlayer();return;}
  if(activeId===r.id&&!$('player').hidden&&!audio.error){
   lastButton=btn;
+  $('player-note').textContent='読み込み中…';
   if(audio.ended)audio.currentTime=0;
   if(keyboard)audio.focus({preventScroll:true});
   beginPlayback(id);
@@ -56,7 +57,8 @@ function play(r,btn,keyboard){
  lastButton=btn;activeId=r.id;$('playing').textContent=r.title;$('player').hidden=false;
  $('player-note').textContent='読み込み中…';
  const uri=new URL(r.file,catalogueBase).href;
- $('player-note').textContent=(r.kind||'試聴')+(r.location?' · '+r.location:'');
+ $('player-scope').textContent=(r.kind||'試聴')+(r.location?' · '+r.location:'');
+ $('player-source').replaceChildren();add($('player-source'),sourceDetails(r,map.get(r.dataset)));
  audio.src=uri;syncPlayer();
  if(keyboard)audio.focus({preventScroll:true});
  beginPlayback(id);
@@ -74,13 +76,29 @@ function syncPlayer(){
   b.setAttribute('aria-label',(on?'一時停止: ':'視聴する: ')+b.dataset.title+' ('+b.dataset.duration+')');
  }
 }
-for(const event of ['playing','pause','ended','error'])$('audio').addEventListener(event,syncPlayer);
-$('stop').addEventListener('click',()=>{
+const mediaStatus={playing:'再生中',pause:'一時停止中',ended:'再生終了。もう一度聴けます。',waiting:'読み込み中…',error:'音源を読み込めませんでした。'};
+for(const [event,message] of Object.entries(mediaStatus))$('audio').addEventListener(event,()=>{
+ const audio=$('audio');
+ if(!activeId||$('player').hidden)return;
+ if(event==='pause'&&(!audio.paused||audio.readyState===0||audio.ended))return;
+ if(event==='playing'&&audio.paused)return;
+ if(event==='ended'&&!audio.ended)return;
+ if(event==='error'&&!audio.error)return;
+ $('player-note').textContent=message;syncPlayer();
+});
+function closePlayer(){
  request++;activeId=null;
  const a=$('audio');a.pause();a.removeAttribute('src');a.load();$('player').hidden=true;
+ $('player-source').replaceChildren();
  syncPlayer();(lastButton?.isConnected?lastButton:q).focus();
-});
- $('audio').addEventListener('error',()=>{if(activeId)$('player-note').textContent='音源を読み込めませんでした。';});
+}
+$('stop').addEventListener('click',closePlayer);
+$('player').addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();closePlayer();}});
+function sourceDetails(r,d){
+ const sourceLink=link(r.linkLabel&&r.linkLabel!=='出典 ↗'?r.linkLabel:'出典を開く',r.source||d.source);
+ if(sourceLink||r.credit||r.license){const det=el('details');det.append(el('summary','出典・帰属・利用条件'));add(det,sourceLink);if(r.credit)det.append(el('p',r.credit,'cred'));if(r.license)det.append(el('p',r.license,'cred'));add(det,link('利用条件 ↗',r.licenseUrl||d.licenseUrl));return det;}
+ return null;
+}
 function record(r){
  const d=map.get(r.dataset), x=el('li',null,'record');x.dataset.recordId=r.id;
  x.append(el('span',modeNames[r.mode]+' · '+(r.kind||r.category||d.title),'tag tag-'+r.mode),el('h3',r.title),el('p',d.title+(r.category?' / '+r.category:'')),el('p',r.detail));
@@ -94,9 +112,9 @@ function record(r){
   b.addEventListener('click',event=>play(r,b,event.detail===0));a.append(b);
  }
  if(r.listeningUrl) add(a,link(r.listeningLabel||'外部で聴く ↗',r.listeningUrl));
- const sourceLink=link(r.linkLabel&&r.linkLabel!=='出典 ↗'?r.linkLabel:'出典を開く',r.source||d.source);add(a,link(r.externalLabel||'関連資料 ↗',r.externalUrl));
+ add(a,link(r.externalLabel||'関連資料 ↗',r.externalUrl));
  x.append(a);if(r.listeningNote)x.append(el('p',r.listeningNote));
- if(sourceLink||r.credit||r.license){const det=el('details');det.append(el('summary','出典・帰属・利用条件'));add(det,sourceLink);if(r.credit)det.append(el('p',r.credit,'cred'));if(r.license)det.append(el('p',r.license,'cred'));add(det,link('利用条件 ↗',r.licenseUrl||d.licenseUrl));x.append(det);}
+ add(x,sourceDetails(r,d));
  return x;
 }
 function render(){
