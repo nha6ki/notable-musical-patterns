@@ -30,7 +30,7 @@ main{width:min(calc(100% - 48px),var(--n-width));margin:auto;padding:2.5rem 0 3r
 .clip-bar p{margin:.15rem 0;font-size:.86rem;color:#d9ebe0}.clip-bar audio{width:100%}.clip-bar .nmp-btn{min-height:38px}
 body.clip-open{padding-bottom:var(--clip-pad,120px)}
 @media(max-width:690px){main,.clip-bar{width:calc(100% - 30px)}main{padding-top:1.5rem}.controls--basic,.card-top,.clip-bar{grid-template-columns:1fr}.clip-bar{gap:.32rem}.clip-bar .nmp-btn{justify-self:start}body.clip-open{padding-bottom:var(--clip-pad,225px)}}
-.card-actions{display:grid;gap:.3rem;justify-items:start}.card-player-jump{white-space:nowrap}
+.card-actions{display:grid;gap:.3rem;justify-items:start}
 #clip-player :focus-visible{outline:2px solid #f6f2e8;outline-offset:3px}
 </style><link rel="stylesheet" href="../../ui-visual.css?v=visual-4"><link rel="canonical" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="ja" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="alternate" hreflang="en" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="x-default" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="stylesheet" href="../../i18n.css?v=1"><script defer src="../../i18n.js?v=1"></script><body class="page-explore"><a href="#q" class="nmp-skip">Skip to main content</a><header class="nmp-bar"><div class="nmp-bar-inner"><a class="nmp-brand" href="../" aria-label="Notable Musical Patterns home"><span class="nmp-brand-mark">NMP</span><span>NOTABLE MUSICAL<br>PATTERNS</span></a><nav aria-label="Main navigation"><a href="../">Home</a><a href="../explore/" aria-current="page">Explore</a><a href="../datasets/">Datasets</a><a href="../guide/">Field guide</a><a class="nmp-language" href="../../explore/" hreflang="ja" aria-label="Switch to Japanese">Japanese</a></nav></div></header><main id="main">
 <header class="section-head"><div class="eyebrow">01 / EXPLORE BY CONCEPT</div><h1 class="nmp-page-title">Explore patterns</h1><p class="nmp-page-lead">Search the listening catalogue by musical feature or work title, and compare clips that share a feature. For explanations and listening cues, visit the <a href="../guide/">Field guide</a>.</p><p class="muted" id="totals"></p></header>
@@ -39,7 +39,7 @@ body.clip-open{padding-bottom:var(--clip-pad,120px)}
 <details class="advanced"><summary>More filters</summary><div class="controls"><label>Pattern family<select id="fam"></select></label><label>Feature label<select id="cl"></select></label><label>Source collection<select id="ds"></select></label><label>Entry type<select id="kind"></select></label><label>Evidence for each feature<select id="st"></select></label></div>
 <p id="evidence-title" class="muted" style="margin-bottom:.3em">Evidence available for the clip</p><p class="muted">A clip with a structural description has at least one documented musical feature. This does not mean that every feature in the recording has been verified.</p><div class="paging" role="group" aria-labelledby="evidence-title"><button type="button" id="e-all" aria-pressed="true">All 2,983</button><button type="button" id="e-direct" aria-pressed="false">Structural description 1,771</button><button type="button" id="e-source" aria-pressed="false">Source annotation only 522</button><button type="button" id="e-unknown" aria-pressed="false">Unclassified 690</button></div>
 <details class="nmp-details tips"><summary>Understanding entry types and evidence</summary><p>Evidence is recorded separately for each feature. For example, a drum clip may have a 6/8 time signature supplied by its source, while its kick placement was checked against MIDI note onsets. A named pattern does not imply that the performance or work is famous. A short clip may not contain the full structure shown in a performance chart. Structural descriptions do not mean that every recording has been independently assessed by ear. Unclassified means that no classification has been assigned under the current criteria, not that the music has no relevant features.</p></details></details></section>
-<p class="muted localization-note">English descriptions preserve the source records’ qualifications and verification status. Japanese work titles are romanized; original names remain searchable.</p><div class="result-bar"><p id="result" role="status" tabindex="-1"></p><div class="paging"><button class="nmp-btn" id="player-jump" type="button" aria-controls="clip-audio" hidden>Go to player</button><button class="nmp-btn" id="clear-all" type="button">Clear filters</button></div></div>
+<p class="muted localization-note">English descriptions preserve the source records’ qualifications and verification status. Japanese work titles are romanized; original names remain searchable.</p><div class="result-bar"><p id="result" role="status" tabindex="-1"></p><div class="paging"><button class="nmp-btn" id="clear-all" type="button">Clear filters</button></div></div>
 <div class="current-filters" id="chips" aria-label="Active filters"></div><p class="muted" id="priority-note" aria-live="polite"></p>
 <p id="scout-empty" hidden>No clips match these filters. Try a shorter search term or remove a filter.</p>
 <div id="list"></div><nav class="paging" aria-label="Search results pagination"><button id="prev" class="nmp-btn" type="button">Previous</button><span id="page"></span><button id="next" class="nmp-btn" type="button">Next</button></nav>
@@ -134,11 +134,9 @@ function render(){
   headline.append(badge,title,meta);head.append(headline);
   const play=els('button','▶ Listen');play.type='button';play.className='nmp-btn nmp-btn--primary card-play';play.dataset.playId=a[0];play.dataset.title=en(a[2]);play.setAttribute('aria-pressed','false');
   play.setAttribute('aria-label','Listen: '+en(a[2]));
-  play.addEventListener('click',()=>playClip(a,play));
+  play.addEventListener('click',event=>{playClip(a,play);if(event.detail===0)focusPlayer();});
   const actions=els('div');actions.className='card-actions';
-  const jump=els('button','Go to player');jump.type='button';jump.className='nmp-btn card-player-jump';
-  jump.dataset.jumpId=a[0];jump.hidden=true;jump.setAttribute('aria-controls','clip-audio');jump.addEventListener('click',focusPlayer);
-  actions.append(play,jump);head.append(actions);
+  actions.append(play);head.append(actions);
   const safe=u=>{try{const x=new URL(u);if(x.origin==='https://nha6ki.github.io' && /^\/notable-musical-patterns\/(guide|explore|datasets)\//.test(x.pathname))x.pathname=x.pathname.replace('/notable-musical-patterns/','/notable-musical-patterns/en/');return /^https?:$/.test(x.protocol)?x.href:null;}catch{return null;}};
   const p=els('p'), aud=els('a','Open audio in a new tab'), src=els('a','View source');
   if(mediaLink(a[6])){aud.href=mediaLink(a[6]);aud.target='_blank';aud.rel='noopener';p.append(aud);}
@@ -187,10 +185,7 @@ function mediaLink(uri) {
 function focusPlayer(){
  if(!player.hidden)audio.focus({preventScroll:true});
 }
-$('player-jump').addEventListener('click',focusPlayer);
 function reflectPlayer(){
- $('player-jump').hidden=player.hidden;
- for(const jump of list.querySelectorAll('[data-jump-id]'))jump.hidden=player.hidden||jump.dataset.jumpId!==activeClip?.[0];
  for(const b of list.querySelectorAll('[data-play-id]')){
   const on=!!activeClip && b.dataset.playId===activeClip[0] && !audio.paused;
   b.setAttribute('aria-pressed',String(on));

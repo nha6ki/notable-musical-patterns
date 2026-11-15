@@ -91,24 +91,40 @@ for(const d of data.datasets){
 }
 let request=0;
 function canPlay(r){return r.mode==='audio';}
-function play(r,btn){
+function play(r,btn,keyboard){
  if(!canPlay(r)||!/^assets\/[a-z0-9._-]+\.(wav|m4a)$/i.test(r.file))return;
  const audio=$('audio'), id=++request;
+ if(activeId===r.id&&!$('player').hidden&&!audio.paused){audio.pause();syncPlayer();return;}
+ if(activeId===r.id&&!$('player').hidden&&!audio.error){
+  lastButton=btn;
+  if(audio.ended)audio.currentTime=0;
+  if(keyboard)audio.focus({preventScroll:true});
+  beginPlayback(id);
+  return;
+ }
  audio.pause();audio.removeAttribute('src');audio.load();
  lastButton=btn;activeId=r.id;$('playing').textContent=localize(r.title);$('player').hidden=false;
  $('player-note').textContent='Loading…';
  const uri=new URL(r.file,catalogueBase).href;
  $('player-note').textContent=localize(r.kind||'Listen')+(r.location?' · '+localize(r.location):'');
  audio.src=uri;syncPlayer();
+ if(keyboard)audio.focus({preventScroll:true});
+ beginPlayback(id);
+}
+function beginPlayback(id){
+ const audio=$('audio');
  audio.play().catch(()=>{if(id!==request)return;$('player-note').textContent=audio.error?'The audio could not be loaded.':'Press Play to start.';});
 }
-function focusPlayer(){if(!$('player').hidden)$('audio').focus({preventScroll:true});}
 function syncPlayer(){
- const gone=$('player').hidden;
- $('catalogue-player-jump').hidden=gone;
- for(const j of $('records').querySelectorAll('[data-audio-jump]'))j.hidden=gone||j.dataset.audioJump!==activeId;
+ const playing=!$('player').hidden&&!$('audio').paused&&!$('audio').ended;
+ for(const b of $('records').querySelectorAll('button[data-play-id]')){
+  const on=playing&&b.dataset.playId===activeId;
+  b.textContent=on?'Pause':'▶ Listen';
+  b.setAttribute('aria-pressed',String(on));
+  b.setAttribute('aria-label',(on?'Pause: ':'Listen: ')+b.dataset.title+' ('+b.dataset.duration+')');
+ }
 }
-$('catalogue-player-jump').addEventListener('click',focusPlayer);
+for(const event of ['playing','pause','ended','error'])$('audio').addEventListener(event,syncPlayer);
 $('stop').addEventListener('click',()=>{
  request++;activeId=null;
  const a=$('audio');a.pause();a.removeAttribute('src');a.load();$('player').hidden=true;
@@ -120,9 +136,13 @@ function record(r){
  x.append(el('span',modeNames[r.mode]+' · '+localize(r.kind||r.category||d.title),'tag tag-'+r.mode),field('h3',r.title),field('p',localize(d.title)+(r.category?' / '+localize(r.category):'')),field('p',r.detail));
  if(r.location)x.append(field('p',r.location));
  const a=el('div',null,'actions');
- if(canPlay(r)){const b=el('button','▶ Listen here ('+Math.round(r.seconds*10)/10+' seconds)','play');b.type='button';b.addEventListener('click',()=>play(r,b));a.append(b);
-  const jump=el('button','Go to player');jump.type='button';jump.dataset.audioJump=r.id;jump.hidden=true;
-  jump.setAttribute('aria-controls','audio');jump.addEventListener('click',focusPlayer);a.append(jump);}
+ if(canPlay(r)){
+  const b=el('button','▶ Listen','play nmp-btn nmp-btn--primary');
+  b.type='button';b.dataset.playId=r.id;b.dataset.title=localize(r.title);
+  b.dataset.duration=(Math.round(r.seconds*10)/10)+' seconds';
+  b.setAttribute('aria-controls','audio');
+  b.addEventListener('click',event=>play(r,b,event.detail===0));a.append(b);
+ }
  if(r.listeningUrl) add(a,link(localize(r.listeningLabel)||'Listen externally ↗',r.listeningUrl));
  add(a,link(localize(r.linkLabel)||'Source ↗',r.source||d.source));add(a,link(localize(r.externalLabel)||'Related material ↗',r.externalUrl));
  x.append(a);if([r.title,r.category,r.detail,r.location,r.credit].some(s=>hasJapanese(localize(s))))x.append(el('p','Some catalogue text is retained in Japanese to preserve the original wording.','search-note'));if(r.listeningNote)x.append(field('p',r.listeningNote));

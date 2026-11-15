@@ -41,24 +41,40 @@ for(const d of data.datasets){
 }
 let request=0;
 function canPlay(r){return r.mode==='audio';}
-function play(r,btn){
+function play(r,btn,keyboard){
  if(!canPlay(r)||!/^assets\/[a-z0-9._-]+\.(wav|m4a)$/i.test(r.file))return;
  const audio=$('audio'), id=++request;
+ if(activeId===r.id&&!$('player').hidden&&!audio.paused){audio.pause();syncPlayer();return;}
+ if(activeId===r.id&&!$('player').hidden&&!audio.error){
+  lastButton=btn;
+  if(audio.ended)audio.currentTime=0;
+  if(keyboard)audio.focus({preventScroll:true});
+  beginPlayback(id);
+  return;
+ }
  audio.pause();audio.removeAttribute('src');audio.load();
  lastButton=btn;activeId=r.id;$('playing').textContent=r.title;$('player').hidden=false;
  $('player-note').textContent='読み込み中…';
  const uri=new URL(r.file,catalogueBase).href;
  $('player-note').textContent=(r.kind||'試聴')+(r.location?' · '+r.location:'');
  audio.src=uri;syncPlayer();
+ if(keyboard)audio.focus({preventScroll:true});
+ beginPlayback(id);
+}
+function beginPlayback(id){
+ const audio=$('audio');
  audio.play().catch(()=>{if(id!==request)return;$('player-note').textContent=audio.error?'音源を読み込めませんでした。':'再生ボタンを押してください。';});
 }
-function focusPlayer(){if(!$('player').hidden)$('audio').focus({preventScroll:true});}
 function syncPlayer(){
- const gone=$('player').hidden;
- $('catalogue-player-jump').hidden=gone;
- for(const j of $('records').querySelectorAll('[data-audio-jump]'))j.hidden=gone||j.dataset.audioJump!==activeId;
+ const playing=!$('player').hidden&&!$('audio').paused&&!$('audio').ended;
+ for(const b of $('records').querySelectorAll('button[data-play-id]')){
+  const on=playing&&b.dataset.playId===activeId;
+  b.textContent=on?'一時停止':'▶ 視聴する';
+  b.setAttribute('aria-pressed',String(on));
+  b.setAttribute('aria-label',(on?'一時停止: ':'視聴する: ')+b.dataset.title+' ('+b.dataset.duration+')');
+ }
 }
-$('catalogue-player-jump').addEventListener('click',focusPlayer);
+for(const event of ['playing','pause','ended','error'])$('audio').addEventListener(event,syncPlayer);
 $('stop').addEventListener('click',()=>{
  request++;activeId=null;
  const a=$('audio');a.pause();a.removeAttribute('src');a.load();$('player').hidden=true;
@@ -70,9 +86,13 @@ function record(r){
  x.append(el('span',modeNames[r.mode]+' · '+(r.kind||r.category||d.title),'tag tag-'+r.mode),el('h3',r.title),el('p',d.title+(r.category?' / '+r.category:'')),el('p',r.detail));
  if(r.location)x.append(el('p',r.location));
  const a=el('div',null,'actions');
- if(canPlay(r)){const b=el('button','▶ サイト内試聴（'+Math.round(r.seconds*10)/10+'秒）','play');b.type='button';b.addEventListener('click',()=>play(r,b));a.append(b);
-  const jump=el('button','プレーヤーを操作');jump.type='button';jump.dataset.audioJump=r.id;jump.hidden=true;
-  jump.setAttribute('aria-controls','audio');jump.addEventListener('click',focusPlayer);a.append(jump);}
+ if(canPlay(r)){
+  const b=el('button','▶ 視聴する','play nmp-btn nmp-btn--primary');
+  b.type='button';b.dataset.playId=r.id;b.dataset.title=r.title;
+  b.dataset.duration=(Math.round(r.seconds*10)/10)+'秒';
+  b.setAttribute('aria-controls','audio');
+  b.addEventListener('click',event=>play(r,b,event.detail===0));a.append(b);
+ }
  if(r.listeningUrl) add(a,link(r.listeningLabel||'外部で聴く ↗',r.listeningUrl));
  add(a,link(r.linkLabel||'出典 ↗',r.source||d.source));add(a,link(r.externalLabel||'関連資料 ↗',r.externalUrl));
  x.append(a);if(r.listeningNote)x.append(el('p',r.listeningNote));

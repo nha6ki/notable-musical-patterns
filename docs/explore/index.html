@@ -30,7 +30,7 @@ main{width:min(calc(100% - 48px),var(--n-width));margin:auto;padding:2.5rem 0 3r
 .clip-bar p{margin:.15rem 0;font-size:.86rem;color:#d9ebe0}.clip-bar audio{width:100%}.clip-bar .nmp-btn{min-height:38px}
 body.clip-open{padding-bottom:var(--clip-pad,120px)}
 @media(max-width:690px){main,.clip-bar{width:calc(100% - 30px)}main{padding-top:1.5rem}.controls--basic,.card-top,.clip-bar{grid-template-columns:1fr}.clip-bar{gap:.32rem}.clip-bar .nmp-btn{justify-self:start}body.clip-open{padding-bottom:var(--clip-pad,225px)}}
-.card-actions{display:grid;gap:.3rem;justify-items:start}.card-player-jump{white-space:nowrap}
+.card-actions{display:grid;gap:.3rem;justify-items:start}
 #clip-player :focus-visible{outline:2px solid #f6f2e8;outline-offset:3px}
 </style><link rel="stylesheet" href="../ui-visual.css?v=visual-4"><link rel="canonical" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="alternate" hreflang="ja" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="alternate" hreflang="en" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="x-default" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="stylesheet" href="../i18n.css?v=1"><script defer src="../i18n.js?v=1"></script><body class="page-explore"><a href="#q" class="nmp-skip">検索欄へ移動</a><header class="nmp-bar"><div class="nmp-bar-inner"><a class="nmp-brand" href="../" aria-label="Notable Musical Patterns トップ"><span class="nmp-brand-mark">NMP</span><span>NOTABLE MUSICAL<br>PATTERNS</span></a><nav aria-label="主要ナビゲーション"><a href="../">トップ</a><a href="../explore/index.html" aria-current="page">概念で探す</a><a href="../datasets/">データセット</a><a href="../guide/index.html">パターン図鑑</a><a class="nmp-language" href="../en/explore/" lang="en" hreflang="en" aria-label="Switch to English">EN</a></nav></div></header><main id="main">
 <header class="section-head"><div class="eyebrow">01 / EXPLORE BY CONCEPT</div><h1 class="nmp-page-title">概念で探す</h1><p class="nmp-page-lead">気になる特徴や作品名から、横断カタログの試聴例を探せます。同じ特徴の例を聞き比べるページです。意味や聞きどころを知りたい方は<a href="../guide/">パターン図鑑</a>へ。</p><p class="muted" id="totals"></p></header>
@@ -39,7 +39,7 @@ body.clip-open{padding-bottom:var(--clip-pad,120px)}
 <details class="advanced"><summary>詳細な絞り込み</summary><div class="controls"><label>パターンのまとまり<select id="fam"></select></label><label>詳細ラベル<select id="cl"></select></label><label>資料群<select id="ds"></select></label><label>項目の種類<select id="kind"></select></label><label>特徴ごとの根拠<select id="st"></select></label></div>
 <p id="evidence-title" class="muted" style="margin-bottom:.3em">試聴例全体の確認状況</p><p class="muted">「構造記述あり」は、少なくとも一つの特徴に構造の記述がある試聴例です。音源内のすべての特徴が確認済みという意味ではありません。</p><div class="paging" role="group" aria-labelledby="evidence-title"><button type="button" id="e-all" aria-pressed="true">全件 2,983</button><button type="button" id="e-direct" aria-pressed="false">構造記述あり 1,771</button><button type="button" id="e-source" aria-pressed="false">出典注釈のみ 522</button><button type="button" id="e-unknown" aria-pressed="false">未同定 690</button></div>
 <details class="nmp-details tips"><summary>項目の種類と根拠の読み方</summary><p>「特徴ごとの根拠」は、一つひとつの特徴に何を根拠として付けたかを示します。たとえば同じドラム試聴でも、6/8は配布元の拍子指定、キックの位置はMIDIの発音から確認、という場合があります。「名称のある型・概念」は、演奏や作品の著名性を示すものではありません。指示譜の全体構造が短い試聴に収まるとは限らず、構造の記述は全件の実聴を意味しません。未同定は「現在の基準で分類していない」であって、「特徴が存在しない」ではありません。</p></details></details></section>
-<div class="result-bar"><p id="result" role="status" tabindex="-1"></p><div class="paging"><button class="nmp-btn" id="player-jump" type="button" aria-controls="clip-audio" hidden>プレーヤーを操作</button><button class="nmp-btn" id="clear-all" type="button">絞り込みを解除</button></div></div>
+<div class="result-bar"><p id="result" role="status" tabindex="-1"></p><div class="paging"><button class="nmp-btn" id="clear-all" type="button">絞り込みを解除</button></div></div>
 <div class="current-filters" id="chips" aria-label="適用中の条件"></div><p class="muted" id="priority-note" aria-live="polite"></p>
 <p id="scout-empty" hidden>一致する試聴例がありません。検索語を短くするか、条件を外してください。</p>
 <div id="list"></div><nav class="paging" aria-label="検索結果のページ"><button id="prev" class="nmp-btn" type="button">前へ</button><span id="page"></span><button id="next" class="nmp-btn" type="button">次へ</button></nav>
@@ -115,13 +115,11 @@ function render(){
   const badge=els('div',(top.length?'この検索の代表例 · ':'')+(mainRel?tm(mainRel).f:'概念未同定'));badge.className='card-eyebrow';
   const title=els('h2',a[2]), meta=els('p',a[1]+' · '+a[0]+' · '+a[5]);meta.className='card-meta';
   headline.append(badge,title,meta);head.append(headline);
-  const play=els('button','▶ 試聴する');play.type='button';play.className='nmp-btn nmp-btn--primary card-play';play.dataset.playId=a[0];play.dataset.title=a[2];play.setAttribute('aria-pressed','false');
-  play.setAttribute('aria-label','試聴する：'+a[2]);
-  play.addEventListener('click',()=>playClip(a,play));
+  const play=els('button','▶ 視聴する');play.type='button';play.className='nmp-btn nmp-btn--primary card-play';play.dataset.playId=a[0];play.dataset.title=a[2];play.setAttribute('aria-pressed','false');
+  play.setAttribute('aria-label','視聴する：'+a[2]);
+  play.addEventListener('click',event=>{playClip(a,play);if(event.detail===0)focusPlayer();});
   const actions=els('div');actions.className='card-actions';
-  const jump=els('button','プレーヤーを操作');jump.type='button';jump.className='nmp-btn card-player-jump';
-  jump.dataset.jumpId=a[0];jump.hidden=true;jump.setAttribute('aria-controls','clip-audio');jump.addEventListener('click',focusPlayer);
-  actions.append(play,jump);head.append(actions);
+  actions.append(play);head.append(actions);
   const safe=u=>{try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:null;}catch{return null;}};
   const p=els('p'), aud=els('a','音源を別タブで開く'), src=els('a','出典を開く');
   if(mediaLink(a[6])){aud.href=mediaLink(a[6]);aud.target='_blank';aud.rel='noopener';p.append(aud);}
@@ -170,15 +168,12 @@ function mediaLink(uri) {
 function focusPlayer(){
  if(!player.hidden)audio.focus({preventScroll:true});
 }
-$('player-jump').addEventListener('click',focusPlayer);
 function reflectPlayer(){
- $('player-jump').hidden=player.hidden;
- for(const jump of list.querySelectorAll('[data-jump-id]'))jump.hidden=player.hidden||jump.dataset.jumpId!==activeClip?.[0];
  for(const b of list.querySelectorAll('[data-play-id]')){
   const on=!!activeClip && b.dataset.playId===activeClip[0] && !audio.paused;
   b.setAttribute('aria-pressed',String(on));
-  b.textContent=on?'一時停止':'▶ 試聴する';
-  b.setAttribute('aria-label',(on?'一時停止：':'試聴する：')+b.dataset.title);
+  b.textContent=on?'一時停止':'▶ 視聴する';
+  b.setAttribute('aria-label',(on?'一時停止：':'視聴する：')+b.dataset.title);
  }
 }
 function playClip(a,button){
