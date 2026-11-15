@@ -1,0 +1,17 @@
+:root{color-scheme:light;--n-paper:#f6f2e8;--n-panel:#fffdf6;--n-ink:#172c23;--n-muted:#55645b;--n-accent:#215b43;--n-line:#d5ded2;--n-width:1120px;--n-radius:14px}
+[hidden]{display:none!important}
+.nmp-bar{color:var(--n-ink);background:var(--n-panel);border-block-end:1px solid var(--n-line)}
+.nmp-bar-inner{width:min(calc(100% - 48px),var(--n-width));margin:auto;min-height:70px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.nmp-brand{display:flex;align-items:center;gap:10px;font-size:.95rem;font-weight:780;letter-spacing:.03em;color:var(--n-ink);text-decoration:none;line-height:1.1}
+.nmp-brand-mark{display:grid;place-items:center;width:44px;height:35px;border-radius:8px;background:var(--n-accent);color:white;font-size:.83rem;letter-spacing:.06em}
+.nmp-bar nav{display:flex;flex-wrap:wrap;gap:.25rem;align-items:center;margin:0}
+.nmp-bar nav a{padding:.54rem .7rem;color:var(--n-ink);text-decoration:none;border-radius:8px;font-size:.9rem;font-weight:650;white-space:nowrap}
+.nmp-bar nav a[aria-current=page],.nmp-bar nav a:hover{background:#e5f0e4;color:#123c29}
+.nmp-bar nav a:focus-visible,.nmp-brand:focus-visible,.nmp-btn:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--n-accent);outline-offset:3px}
+.nmp-btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;border:1px solid var(--n-line);border-radius:8px;background:var(--n-panel);color:var(--n-ink);font:inherit;font-size:.92rem;font-weight:670;padding:.44rem .75rem;text-decoration:none;cursor:pointer}
+.nmp-btn--primary{background:var(--n-accent);border-color:var(--n-accent);color:white}
+.nmp-btn--primary:hover{background:#174b35;color:white}
+.nmp-skip{position:absolute;z-index:20;left:1rem;top:.7rem;background:white;color:var(--n-ink);padding:.6rem .8rem;transform:translateY(-150%)}
+.nmp-skip:focus{transform:none}
+.nmp-footer{border-top:1px solid var(--n-line);padding:1.3rem max(24px,calc((100% - var(--n-width))/2));color:var(--n-muted);font-size:.9rem}
+@media(max-width:690px){.nmp-bar-inner{width:calc(100% - 30px);align-items:flex-start;flex-direction:column;gap:4px;padding:.65rem 0}.nmp-bar nav a{padding:.42rem .48rem}.nmp-footer{padding-inline:15px}}
