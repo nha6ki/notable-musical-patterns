@@ -1,0 +1,25 @@
+.nmp-bar nav a.nmp-language {
+ border:1px solid var(--n-line); color:var(--n-accent); line-height:1.2;
+ font-size:.8rem; min-width:44px; font-weight:700;
+}
+html[lang="en"] .nmp-page-title { overflow-wrap:anywhere; }
+html[lang="en"] .listening-index { font-size:.65rem; letter-spacing:.1em; }
+html[lang="en"] .page-home .routes .card h3 { overflow-wrap:anywhere; }
+html[lang="en"] .page-home .hero h1 { text-wrap:balance; }
+@media(max-width:690px) {
+ .nmp-bar .nmp-bar-inner nav {
+  grid-template-columns:repeat(4,minmax(0,1fr)) auto; gap:.17rem;
+ }
+ .nmp-bar .nmp-bar-inner nav a { font-size:clamp(.65rem,2.95vw,.83rem); padding-inline:.1rem; }
+ .nmp-bar .nmp-bar-inner nav a.nmp-language { min-width:38px; padding-inline:.22rem; }
+}
+@media(max-width:690px) {
+ .nmp-bar .nmp-bar-inner nav a { white-space:normal; overflow-wrap:normal; }
+ .nmp-bar .nmp-bar-inner nav a.nmp-language { white-space:nowrap; }
+}
+html[lang="en"] .page-guide .nmp-guide-controls {
+ padding:1.1rem 1.25rem;background:var(--n-panel);
+ border:1px solid var(--n-line);border-block-start:2px solid #759684;border-radius:12px;
+}
+html[lang="en"] .page-datasets .hero .nmp-btn { margin-bottom:.35rem; }
+@media(max-width:600px) {html[lang="en"] .page-guide .nmp-guide-controls {padding:.85rem;} }
