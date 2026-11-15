@@ -15,3 +15,30 @@
 .nmp-skip:focus{transform:none}
 .nmp-footer{border-top:1px solid var(--n-line);padding:1.3rem max(24px,calc((100% - var(--n-width))/2));color:var(--n-muted);font-size:.9rem}
 @media(max-width:690px){.nmp-bar-inner{width:calc(100% - 30px);align-items:flex-start;flex-direction:column;gap:4px;padding:.65rem 0}.nmp-bar nav a{padding:.42rem .48rem}.nmp-footer{padding-inline:15px}}
+
+/* The three page-level audio controls share size and state styling. */
+.nmp-btn.nmp-btn--primary:is(.card-play,.play,.guide-listen){
+  box-sizing:border-box;
+  inline-size:7.5rem;
+  min-block-size:2.75rem;
+  padding:.44rem .75rem;
+  font-size:.92rem;
+  font-weight:670;
+  line-height:1.25;
+  white-space:nowrap;
+  background:var(--n-accent);
+  border-color:var(--n-accent);
+  color:white;
+}
+.nmp-btn.nmp-btn--primary:is(.card-play,.play,.guide-listen):hover{
+  background:#174b35;
+  border-color:#174b35;
+}
+.nmp-btn.nmp-btn--primary:is(.card-play,.play,.guide-listen)[aria-pressed="true"]{
+  background:#dcebe0;
+  border-color:var(--n-accent);
+  color:#133c2a;
+}
+.nmp-btn.nmp-btn--primary:is(.card-play,.play,.guide-listen)[aria-pressed="true"]:hover{
+  background:#c9dfd0;
+}
