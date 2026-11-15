@@ -775,4 +775,4 @@ for(const link of document.querySelectorAll('.group-return a,.nmp-skip'))link.ad
 document.addEventListener('play',e=>{if(e.target.tagName!=='AUDIO')return;if(e.target.closest('.pattern-card[hidden]')){e.target.pause();return;}for(const a of document.querySelectorAll('audio'))if(a!==e.target&&!a.paused)a.pause();},true);
 if(location.hash)document.getElementById(location.hash.slice(1))?.closest('details')?.setAttribute('open','');
 addEventListener('hashchange',()=>document.getElementById(location.hash.slice(1))?.closest('details')?.setAttribute('open',''));
-})();</script><script src="../../guide-player.js?v=1"></script></body></html>
+})();</script><script src="../../guide-player.js?v=2"></script></body></html>

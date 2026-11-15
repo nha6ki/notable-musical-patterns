@@ -94,9 +94,9 @@ function record(r){
   b.addEventListener('click',event=>play(r,b,event.detail===0));a.append(b);
  }
  if(r.listeningUrl) add(a,link(r.listeningLabel||'外部で聴く ↗',r.listeningUrl));
- add(a,link(r.linkLabel||'出典 ↗',r.source||d.source));add(a,link(r.externalLabel||'関連資料 ↗',r.externalUrl));
+ const sourceLink=link(r.linkLabel||'出典 ↗',r.source||d.source);add(a,link(r.externalLabel||'関連資料 ↗',r.externalUrl));
  x.append(a);if(r.listeningNote)x.append(el('p',r.listeningNote));
- if(r.credit||r.license){const det=el('details');det.append(el('summary','帰属・利用条件'));if(r.credit)det.append(el('p',r.credit,'cred'));if(r.license)det.append(el('p',r.license,'cred'));add(det,link('利用条件 ↗',r.licenseUrl||d.licenseUrl));x.append(det);}
+ if(sourceLink||r.credit||r.license){const det=el('details');det.append(el('summary','出典・帰属・利用条件'));add(det,sourceLink);if(r.credit)det.append(el('p',r.credit,'cred'));if(r.license)det.append(el('p',r.license,'cred'));add(det,link('利用条件 ↗',r.licenseUrl||d.licenseUrl));x.append(det);}
  return x;
 }
 function render(){

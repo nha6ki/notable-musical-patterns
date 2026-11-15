@@ -4,14 +4,14 @@
 const sources=[...document.querySelectorAll('.pattern-card audio[controls]')];
 if(!sources.length)return;
 const en=document.documentElement.lang.startsWith('en');
-const T=en?{listen:'Listen',pause:'Pause',playing:'Playing',paused:'Paused',ended:'Finished. You can listen again.',loading:'Loading…',error:'Unable to play. Try again or open the audio link.',blocked:'Use the playback control below to start.',close:'Close player',player:'Listening player',file:'Open audio in a new tab',credit:'Evidence, sources and terms of use'}:{listen:'視聴する',pause:'一時停止',playing:'再生中',paused:'一時停止中',ended:'再生終了。もう一度聴けます。',loading:'読み込み中…',error:'再生できませんでした。もう一度試すか、音源リンクを開いてください。',blocked:'下の再生ボタンを押してください。',close:'プレーヤーを閉じる',player:'試聴プレーヤー',file:'別タブで音源を開く',credit:'根拠・出典・利用条件'};
+const T=en?{listen:'Listen',pause:'Pause',playing:'Playing',paused:'Paused',ended:'Finished. You can listen again.',loading:'Loading…',error:'Unable to play. Try again.',blocked:'Use the playback control below to start.',close:'Close player',player:'Listening player',credit:'Evidence, sources and terms of use'}:{listen:'視聴する',pause:'一時停止',playing:'再生中',paused:'一時停止中',ended:'再生終了。もう一度聴けます。',loading:'読み込み中…',error:'再生できませんでした。もう一度お試しください。',blocked:'下の再生ボタンを押してください。',close:'プレーヤーを閉じる',player:'試聴プレーヤー',credit:'根拠・出典・利用条件'};
 const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text)n.textContent=text;return n;};
 const panel=el('aside');panel.id='guide-clip-player';panel.hidden=true;panel.setAttribute('aria-label',T.player);
 const bar=el('div','guide-clip-bar'),info=el('div','guide-clip-info'),status=el('p','guide-clip-status'),title=el('strong','guide-clip-title'),scope=el('p','guide-clip-scope');
 status.setAttribute('role','status');status.setAttribute('aria-live','polite');
 info.append(status,title,scope);
-const media=el('div','guide-clip-media'),slot=el('div','guide-clip-slot'),details=el('details','guide-clip-details'),summary=el('summary','',T.credit),body=el('div','guide-clip-credit'),file=el('a','',T.file),credit=el('div');
-file.target='_blank';file.rel='noopener';body.append(file,credit);details.append(summary,body);media.append(slot,details);
+const media=el('div','guide-clip-media'),slot=el('div','guide-clip-slot'),details=el('details','guide-clip-details'),summary=el('summary','',T.credit),body=el('div','guide-clip-credit'),credit=el('div');
+body.append(credit);details.append(summary,body);media.append(slot,details);
 const close=el('button','nmp-btn guide-clip-close',T.close);close.type='button';bar.append(info,media,close);panel.append(bar);document.body.append(panel);
 let active=null,epoch=0;
 const items=sources.map((audio,i)=>{
@@ -43,7 +43,6 @@ function activate(item,keyboard){
   if(active)restore(active);
   active=item;title.textContent=item.title;
   scope.textContent=item.example.querySelector('.scope')?.textContent?.trim()||item.example.querySelector('p.small')?.textContent?.trim()||'';
-  file.href=item.audio.src;
   // Keep the full source evidence, licensing and limitations available. Cloned
   // attribution must not duplicate IDs from the main guide.
   const cited=item.example.querySelector('details.cite');
