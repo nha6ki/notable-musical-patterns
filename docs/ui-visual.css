@@ -244,3 +244,44 @@ body[class^="page-"]{font-family:var(--n-body-font)}
 /* Match the header height on all four pages. */
 .nmp-bar{padding-block:0}
 @media (max-width:690px){.page-home .hero .lead{text-wrap:balance}}
+
+/* Finish the published visual system without changing the catalogue or cards. */
+.page-home .stat { display:grid; gap:.22rem; }
+.page-home .stat span { font-size:clamp(.72rem,1.35vw,.89rem); line-height:1.45; }
+.page-home .routes .card { padding:clamp(1.2rem,2.7vw,1.9rem); }
+.page-home .routes .card h3 { line-height:1.35; }
+.page-home .routes .card a { align-self:start; min-height:44px; align-items:center; }
+.page-home .routes .card:not(.featured) .number { color:var(--n-accent); }
+.page-home .count-note { font-size:.8rem; line-height:1.65; }
+.page-guide .guide-evidence { margin:1rem 0; padding:0 .9rem; border-block:1px solid var(--n-line); color:var(--n-muted); }
+.page-guide .guide-evidence summary { min-height:44px; padding:.55rem 0; color:var(--n-accent); font-weight:650; cursor:pointer; }
+.page-guide .guide-evidence p { max-width:69ch; margin:.2rem 0 1rem; }
+.page-guide .pattern-card>p:not(.limits):not(.cue-model),.page-guide .pattern-card .limits { max-width:72ch; }
+.page-guide .pattern-card .scope { font-weight:650; color:var(--n-accent); }
+.page-guide .pattern-card .example .cite { border-top:1px solid var(--n-line); }
+.page-guide .pattern-card .example .cite summary { min-height:44px; padding-top:.6rem; }
+.page-explore .controls input,.page-explore .controls select { border-color:#84988b; }
+.page-explore .card-play,.page-explore #clip-close { min-height:44px; }
+.page-terms,.page-credits { background:var(--n-paper); color:var(--n-ink); }
+.page-terms main,.page-credits main { width:var(--n-container); max-width:var(--n-width); margin:auto; padding:clamp(1.4rem,4vw,2.7rem) 0 clamp(2.5rem,5vw,4rem); }
+.page-terms h1,.page-credits h1 { font:730 var(--n-heading)/1.24 var(--n-body-font); letter-spacing:-.035em; margin:.35em 0 .6em; overflow-wrap:anywhere; }
+.page-terms main>p,.page-credits .hero p { max-width:72ch; }
+.page-credits .hero { background:none; padding:1rem 0 1.35rem; border-bottom:1px solid var(--n-line); }
+.page-terms .reference-back,.page-credits .reference-back { font-size:.87rem; color:var(--n-accent); }
+.page-terms .reference-back a,.page-credits .reference-back a { color:inherit; }
+.page-terms .dataset-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; margin-top:2rem; }
+.page-terms .dataset { min-width:0; padding:1.25rem; background:var(--n-panel); border:1px solid var(--n-line); border-radius:var(--n-radius); overflow-wrap:anywhere; }
+.page-terms .dataset h2 { font:700 1.08rem/1.5 var(--n-body-font); margin:0; }
+.page-terms .dataset h2+p { font-variant-numeric:tabular-nums; font-weight:650; color:var(--n-accent); }
+.page-terms .dataset .subtle { justify-self:start; }
+@media(max-width:690px){
+ .page-home .stats .stat { display:grid; gap:.17rem; }
+ .page-home .stat span { font-size:.71rem; }
+ .page-guide .nmp-bar nav a { padding:.35rem .15rem; font-size:clamp(.71rem,3.15vw,.85rem); }
+ .page-guide #cardfilter,.page-explore .controls input,.page-explore .controls select { font-size:1rem; }
+ .page-terms .dataset-grid { grid-template-columns:minmax(0,1fr); }
+ .page-terms h1,.page-credits h1 { font-size:clamp(1.85rem,7.1vw,2.25rem); }
+}
+.page-terms main a,.page-credits main a { color:var(--n-accent); text-underline-offset:.22em; }
+.page-terms h1,.page-credits h1 { text-wrap:balance; }
+.page-credits .about h2 { font-family:var(--n-body-font); font-weight:700; }
