@@ -4,10 +4,10 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="canonical" href="https://nha6ki.github.io/notable-musical-patterns/datasets/"><title>データセットを探す | Notable Musical Patterns</title>
 <meta name="description" content="既存13データセットと追加3資料群を横断して、リズム・和声・旋律の事例と出典を探す。">
-<link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="../ui-shared.css"><script src="./data.js" defer></script><script src="./supplement.js?v=historical2" defer></script><script src="./app.js?v=historical2" defer></script>
-<style>.hero{background:var(--n-paper)}.hero-inner{gap:1.3rem;padding-block:2rem}.hero-art{display:none}.hero-inner>div:first-child{grid-column:1/-1}.hero h1{font-size:clamp(2.15rem,5vw,3.35rem)}.dataset,.record,.searchbox{border-radius:var(--n-radius)}</style></head>
+<link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="../ui-shared.css"><script src="./data.js" defer></script><script src="./supplement.js?v=historical2" defer></script><script src="./app.js?v=catalogue-state-1" defer></script>
+<style>.hero{background:var(--n-paper);color:var(--n-ink)}.hero .lead{color:var(--n-muted)}.hero .kicker{color:var(--n-accent)}.hero-inner{gap:1.3rem;padding-block:2rem}.hero-art{display:none}.hero-inner>div:first-child{grid-column:1/-1}.hero h1{font-size:clamp(2.15rem,5vw,3.35rem)}.dataset,.record,.searchbox{border-radius:var(--n-radius)}#player :focus-visible{outline:2px solid #f6f2e8;outline-offset:3px}</style></head>
 <body>
-<a href="#explore" class="skip">横断検索へ移動</a>
+<a href="#explore" class="nmp-skip">横断検索へ移動</a>
 <header class="nmp-bar"><div class="nmp-bar-inner"><a class="nmp-brand" href="../" aria-label="Notable Musical Patterns トップ"><span class="nmp-brand-mark">NMP</span><span>NOTABLE MUSICAL<br>PATTERNS</span></a><nav aria-label="主要ナビゲーション"><a href="../">トップ</a><a href="../explore/">概念で探す</a><a href="../datasets/" aria-current="page">データセット</a><a href="../guide/">パターン図鑑</a></nav></div></header>
 <main>
 <section class="hero" aria-labelledby="title"><div class="wrap hero-inner">
@@ -17,7 +17,7 @@
 </div></section>
 <div class="wrap intro"><p id="overview" class="metrics"><strong id="source-count">16</strong><span>データセット・資料群</span><strong id="local-count">…</strong><span>このページの試聴</span><strong id="reference-count">…</strong><span>参照のみ</span></p>
 <p>掲載数は検索項目の数で、固有の曲数ではありません。「参照のみ」には出典や外部リンクがある項目を含みます。追加3資料群のうち、Freesoundの15件は参考試聴、日本の歴史楽譜24曲は原譜に基づく新規合成。残る34件は出典参照のみです。サイト内の短い試聴と外部ページは区別しています。<a href="./release-notes.html">掲載範囲と保留理由 ↗</a></p></div>
-<section class="wrap section" id="explore" aria-labelledby="explore-title">
+<section class="wrap section" id="explore" tabindex="-1" aria-labelledby="explore-title">
 <p class="kicker">CATALOGUE SEARCH</p><h2 id="explore-title">検索と試聴</h2>
 <div class="searchbox">
  <div class="filter-q"><label for="query">名前・様式・楽器・IDなど</label><input id="query" type="search" placeholder="例：サンバ、ブルース、Syrtos、funk"></div>
@@ -26,7 +26,7 @@
  <button id="clear" type="button">クリア</button>
 </div>
 <p id="scope" class="search-note"></p>
-<p id="results-status" role="status" aria-live="polite" tabindex="-1"></p>
+<p id="results-status" role="status" aria-live="polite" tabindex="-1"></p><button id="catalogue-player-jump" class="nmp-btn" type="button" aria-controls="audio" hidden>プレーヤーを操作</button>
 <ul id="records" class="record-grid"></ul>
 <p id="empty" hidden>一致する項目がありません。検索語を短くするか、絞り込みを外してください。</p>
 <nav id="pagination" class="pages" aria-label="検索結果のページ"><button type="button" id="prev">← 前へ</button><span id="page-number"></span><button type="button" id="next">次へ →</button></nav>
@@ -41,7 +41,7 @@
 </section>
 <noscript><div class="wrap">横断カタログを使うにはJavaScriptを有効にしてください。</div></noscript>
 </main>
-<aside class="player" id="player" hidden aria-label="試聴プレーヤー"><div class="wrap playbar"><div><p class="kicker">NOW PLAYING</p><strong id="playing"></strong><p id="player-note" role="status"></p></div><audio controls preload="none" id="audio"></audio><button type="button" id="stop">閉じる ×</button></div></aside>
+<aside class="player" id="player" hidden aria-label="試聴プレーヤー"><div class="wrap playbar"><div><p class="kicker">NOW PLAYING</p><strong id="playing"></strong><p id="player-note" role="status"></p></div><audio controls preload="none" id="audio" tabindex="0"></audio><button type="button" id="stop">閉じる ×</button></div></aside>
 <footer><div class="wrap"><b>NMP</b><span>Notable Musical Patterns</span><a href="#title">ページ上部へ ↑</a></div></footer>
 </body>
 </html>

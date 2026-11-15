@@ -1,5 +1,15 @@
 # Edition and analysis references
 
+## Scope of this reference list
+
+This file documents the **eight-example v0.1.0 offline archive**. Its statements that linked materials are not included apply to that archive, not to the current `docs/` website, which includes audio excerpts.
+
+The current website contains **16 datasets/source groups, 6,729 search entries, 2,983 on-site audio excerpts, and 105 listening-guide label cards**. For its source-specific publication limits and terms, see [publication scope](docs/datasets/release-notes.html), [Mutopia-specific credits](docs/credits.html), and each item's source, attribution, and modification notes. This eight-entry list is not a complete bibliography of the current site.
+
+`MANIFEST.sha256` covers the original v0.1.0 archive files only, not the current website. Check it against the original archive; these revised documentation files are intentionally outside that historical checksum snapshot.
+
+## Archived v0.1.0 references
+
 The edition pages identify the exact score and MIDI used. No linked material is included, reproduced or relicensed here.
 
 See [Mutopia Project’s source terms](https://www.mutopiaproject.org/legal.html) for its own material. Schumann’s *Sicilienne* edition carries [CC BY-SA 2.5](https://creativecommons.org/licenses/by-sa/2.5/); it is not included. A number of other edition pages display a historical Public Domain dedication; these entries are provenance, not a statement of worldwide clearance.
