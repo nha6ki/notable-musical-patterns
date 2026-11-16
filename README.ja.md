@@ -60,6 +60,7 @@ python3 -m unittest discover -s tests -v
 
 - `docs/`：GitHub Pagesのサイト、共有データ、音声。英語ページは `docs/en/`。
 - `tools/check_release.py`：静的な公開前検査。
+- [収集方法・採用基準](METHODOLOGY.ja.md)：資料の探し方、公開判断、根拠の種類と再現範囲。
 - [ARCHITECTURE.md](ARCHITECTURE.md)：サイト構成、データの流れ、保守上の境界。
 - [CONTRIBUTING.md](CONTRIBUTING.md)：変更の進め方とレビュー方針。
 - [RELEASE-CHECKS.md](RELEASE-CHECKS.md)：公開前後の検証手順。

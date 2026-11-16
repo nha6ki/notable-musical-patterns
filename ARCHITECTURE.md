@@ -14,6 +14,19 @@ Notable Musical Patterns is a static, bilingual listening catalogue. There is no
 | `tools/`, `tests/`, `RELEASE-CHECKS.md` | Offline integrity checks, regression tests and release procedure |
 | `catalogue.json`, `search.py`, `SOURCES.md`, `MANIFEST.sha256` | Historical eight-example release material; not input to the current website |
 
+## Data flow
+
+```text
+Upstream scores, recordings and annotations
+  -> research and selection outside the public runtime
+  -> public source records, clip metadata and short audio assets
+  -> browser-side catalogue index, guide and on-demand playback
+```
+
+The public site does not query an upstream database at runtime. The Explore pages load the shared source records and their own clip, association and credit data. `docs/catalogue-search.js` joins clips to records by stable item ID, checks that source, title, location and audio filename agree, and builds a normalized search index in memory. Its join fails rather than silently dropping a missing or inconsistent clip. The source directory uses the same public records for counts and sends visitors to Explore with the source already selected.
+
+The Pages deployment serves the static site. The separate `Repository checks` GitHub Actions workflow runs the Python structural checker and unit tests; it does not perform musical verification or replace a browser playback check. For the research steps and what was selected before publication, see the [collection and selection methodology](METHODOLOGY.md).
+
 ## How a record connects across pages
 
 - **Catalogue records** use a stable ID and source-collection key. They distinguish in-site audio from reference-only entries. A reference-only entry may link to an external listening page; that link does not turn it into an in-site recording or guarantee a match to the exact performance.

@@ -60,6 +60,7 @@ The release checker reads local files without network access or file writes; the
 
 - `docs/`: the GitHub Pages website, shared data and audio; English pages are under `docs/en/`.
 - `tools/check_release.py`: static release checks.
+- [Collection and selection methodology](METHODOLOGY.md): source discovery, publication decisions, evidence and reproducibility limits.
 - [ARCHITECTURE.md](ARCHITECTURE.md): site structure, data flow and maintenance boundaries.
 - [CONTRIBUTING.md](CONTRIBUTING.md): contribution workflow and review expectations.
 - [RELEASE-CHECKS.md](RELEASE-CHECKS.md): pre-publication and post-publication verification.
