@@ -38,7 +38,7 @@ for(const d of data.datasets){
  c.append(el('span','Included source','tag'),field('h3',d.title),el('p','On this site: '+indexedLabel,'d-count'),el('p',extent+n(d.total)+' '+sourceUnits[d.id]),el('p',catalogueIntroductions[d.id]||d.summary),field('p',d.license,'license'));
  const note=el('details'),heading=el('summary','Coverage and unresolved issues');
  note.append(heading,field('p',publicationLimits[d.id]||d.summary));c.append(note);
- const totalsText=totals.get(d.id);if(totalsText)c.append(el('p',totalsText.replace('サイト内音源 ','On-site audio: ').replace(' ／ 参照のみ ',' / reference only: '),'playback-coverage'));
+ const totalsText=totals.get(d.id);if(totalsText)c.append(el('p',totalsText.replace('サイト内音源 ','On-site audio: ').replace(' ／ 参照のみ ',' / without on-site audio: '),'playback-coverage'));
  const a=el('div',null,'actions'),b=el('a','Browse this source','nmp-btn');const target=new URL('../explore/',location.href);target.searchParams.set('dataset',d.id);target.searchParams.set('mode','all');target.hash='results';b.href=target.href;
  a.append(b);add(a,link('Official source ↗',d.source));c.append(a);$('datasets').append(c);
 }
