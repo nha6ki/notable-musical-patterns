@@ -28,7 +28,7 @@ for(const d of data.datasets){
  c.append(el('span','掲載資料','tag'),el('h3',d.title),el('p','本サイト：'+indexedLabel,'d-count'),el('p',extent+n(d.total)+d.unit),el('p',catalogueIntroductions[d.id]||d.summary),el('p',d.license,'license'));
  const note=el('details'),heading=el('summary','掲載範囲・保留理由');
  note.append(heading,el('p',publicationLimits[d.id]||d.summary));c.append(note);
- const totalsText=totals.get(d.id);if(totalsText)c.append(el('p',totalsText,'playback-coverage'));
+ const totalsText=totals.get(d.id)?.replace(/^サイト内音源(?=\s)/u,'サイト内試聴');if(totalsText)c.append(el('p',totalsText,'playback-coverage'));
  const a=el('div',null,'actions'),b=el('a','この資料を探す','nmp-btn');const target=new URL('../explore/',location.href);target.searchParams.set('dataset',d.id);target.searchParams.set('mode','all');target.hash='results';b.href=target.href;
  a.append(b);add(a,link('公式出典 ↗',d.source));c.append(a);$('datasets').append(c);
 }
