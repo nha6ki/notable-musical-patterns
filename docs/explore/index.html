@@ -34,13 +34,13 @@ body.clip-open{padding-bottom:var(--clip-pad,120px)}
 </style><link rel="stylesheet" href="../ui-visual.css?v=card-content-1"><link rel="canonical" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="alternate" hreflang="ja" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="alternate" hreflang="en" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="x-default" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="stylesheet" href="../i18n.css?v=1"><script defer src="../i18n.js?v=1"></script><body class="page-explore"><a href="#q" class="nmp-skip">検索欄へ移動</a><header class="nmp-bar"><div class="nmp-bar-inner"><a class="nmp-brand" href="../" aria-label="Notable Musical Patterns トップ"><span class="nmp-brand-mark">NMP</span><span>NOTABLE MUSICAL<br>PATTERNS</span></a><nav aria-label="主要ナビゲーション"><a href="../">Home</a><a href="../explore/index.html" aria-current="page">特徴から探す</a><a href="../datasets/">資料から探す</a><a href="../guide/index.html">解説を読む</a><a class="nmp-language" href="../en/explore/" lang="en" hreflang="en" aria-label="Switch to English">EN</a></nav></div></header><main id="main">
 <header class="section-head"><div class="eyebrow">01 / EXPLORE BY CONCEPT</div><h1 class="nmp-page-title">特徴から探す</h1><p class="nmp-page-lead">リズムや和音などの特徴、作品名・出典から試聴例を探して聴き比べられます。表示を切り替えると、外部試聴や資料のみの項目も検索できます。特徴の意味や聴きどころは<a href="../guide/">解説を読む</a>へ。</p><p class="muted" id="totals"></p></header>
 <section class="search-shell" aria-label="試聴例の検索条件">
-<div class="controls controls--basic"><label>試聴・資料の表示<select id="mode"><option value="audio">サイト内試聴</option><option value="external">外部試聴</option><option value="material">資料のみ</option><option value="all">すべて</option><option value="without">サイト内音声なし（全件）</option><option value="reference">出典参照</option><option value="analysis">メタデータ・分析</option></select></label><label>語句・試聴ID<input id="q" type="search" placeholder="例：アルベルティ・バス、ハイハット"></label><label>大分類<select id="grp"></select></label></div>
+<div class="controls controls--basic"><label>試聴・資料の表示<select id="mode"><option value="audio">サイト内試聴</option><option value="external">外部試聴</option><option value="material">資料のみ</option><option value="all">すべて</option><option value="without">サイト内音声なし（全件）</option><option value="reference">出典参照</option><option value="analysis">メタデータ・分析</option></select></label><label>作品名・特徴・項目ID<input id="q" type="search" placeholder="例：アルベルティ・バス、ハイハット"></label><label>大分類<select id="grp"></select></label></div>
 <details class="advanced"><summary>詳細な絞り込み</summary><div class="controls"><label>パターンのまとまり<select id="fam"></select></label><label>詳細ラベル<select id="cl"></select></label><label>資料群<select id="ds"></select></label><label>項目の種類<select id="kind"></select></label><label>特徴ごとの根拠<select id="st"></select></label></div>
 <p id="evidence-title" class="muted" style="margin-bottom:.3em">試聴例全体の確認状況</p><p class="muted">「構造記述あり」は、少なくとも一つの特徴に構造の記述がある試聴例です。音源内のすべての特徴が確認済みという意味ではありません。</p><div class="paging" role="group" aria-labelledby="evidence-title"><button type="button" id="e-all" aria-pressed="true">全件 2,983</button><button type="button" id="e-direct" aria-pressed="false">構造記述あり 1,771</button><button type="button" id="e-source" aria-pressed="false">出典注釈のみ 522</button><button type="button" id="e-unknown" aria-pressed="false">未同定 690</button></div>
 <details class="nmp-details tips"><summary>項目の種類と根拠の読み方</summary><p>「特徴ごとの根拠」は、一つひとつの特徴に何を根拠として付けたかを示します。たとえば同じドラム試聴でも、6/8は配布元の拍子指定、キックの位置はMIDIの発音から確認、という場合があります。「名称のある型・概念」は、演奏や作品の著名性を示すものではありません。指示譜の全体構造が短い試聴に収まるとは限らず、構造の記述は全件の実聴を意味しません。未同定は「現在の基準で分類していない」であって、「特徴が存在しない」ではありません。</p></details></details></section>
 <div class="result-bar" id="results"><p id="result" role="status" tabindex="-1"></p><div class="paging"><button class="nmp-btn" id="clear-all" type="button">絞り込みを解除</button></div></div>
 <div class="current-filters" id="chips" aria-label="適用中の条件"></div><p class="muted" id="priority-note" aria-live="polite"></p>
-<p id="scout-empty" hidden>一致する項目がありません。検索語を短くするか、条件を外してください。</p>
+<div id="scout-empty" hidden><p id="no-results-message">一致する項目がありません。検索語を短くするか、条件を外してください。</p><button id="search-all" class="nmp-btn" type="button" hidden>すべての項目を探す</button></div>
 <div id="list" class="feature-card-grid"></div><nav class="paging" aria-label="検索結果のページ"><button id="prev" class="nmp-btn" type="button">前へ</button><span id="page"></span><button id="next" class="nmp-btn" type="button">次へ</button></nav>
 <noscript><p>検索と試聴にはJavaScriptが必要です。</p></noscript></main>
 <footer class="nmp-site-footer"><div class="nmp-site-footer-inner"><span>Notable Musical Patterns</span><nav aria-label="フッターナビゲーション"><a href="../datasets/release-notes.html">掲載範囲と利用条件</a><a href="#main">ページ上部へ ↑</a></nav></div></footer><aside id="clip-player" aria-label="試聴プレーヤー" hidden><div class="clip-bar">
@@ -176,13 +176,20 @@ function render(){
  };
  const filterActive=Boolean(g||f||label||type||st||evidenceLevel),mode=$('mode').value;
  const inMode=row=>mode==='all'||(mode==='material'?row.releaseKind==='source_only'&&!row.listeningUrl:mode==='without'?row.releaseKind==='source_only':mode==='external'?Boolean(row.listeningUrl):row.mode===mode);
- const permits=entry=>(!ds||entry.row.dataset===ds)&&inMode(entry.row)&&
+ const permits=entry=>(!ds||entry.row.dataset===ds)&&
    (entry.feature?(!evidenceLevel||level(entry.feature)===evidenceLevel)&&showByTaxonomy(entry.feature):!filterActive);
  const broad=new Set(!legacyCatalogue&&!exact?catalogue.search($('q').value).map(entry=>entry.row.id):[]);
  const terms=legacyCatalogue?legacyNorm($('q').value).trim().split(/\s+/).filter(Boolean):[];
  const order=legacyCatalogue?catalogue.entries:[...data.map(a=>catalogue.byId.get(a[0])),...catalogue.entries.filter(entry=>!entry.feature)];
- const hits=order.filter(entry=>permits(entry)&&(legacyCatalogue?terms.every(w=>legacySearchText(entry.row).includes(w)):
-   exact?norm(entry.row.id)===q[0]:broad.has(entry.row.id)||(entry.feature&&q.every(w=>entry.feature[11].includes(w)))));
+ const matches=entry=>legacyCatalogue?terms.every(w=>legacySearchText(entry.row).includes(w)):
+   exact?norm(entry.row.id)===q[0]:broad.has(entry.row.id)||(entry.feature&&q.every(w=>entry.feature[11].includes(w)));
+ const hits=order.filter(entry=>inMode(entry.row)&&permits(entry)&&matches(entry));
+ const references=!hits.length&&mode==='audio'&&!filterActive
+   ? order.filter(entry=>!entry.feature&&permits(entry)&&matches(entry)).length : 0;
+ $('search-all').hidden=!references;
+ $('no-results-message').textContent=references
+  ? 'サイト内で試聴できる項目はありません。サイト内音声のない項目に'+fmt.format(references)+'件一致します。'
+  : '一致する項目がありません。検索語を短くするか、条件を外してください。';
  const priority=new Map(hits.filter(entry=>entry.feature).map(({row,feature})=>[row.id,representative(feature,g,f,label,type,st,exact?[]:q)]));
  const ranked=legacyCatalogue?0:hits.filter(entry=>priority.get(entry.row.id)?.length>0).length;
  if(ranked)hits.sort((a,b)=>Number((priority.get(b.row.id)?.length||0)>0)-Number((priority.get(a.row.id)?.length||0)>0));
@@ -406,6 +413,10 @@ function movePage(delta){
  n+=delta;render();writeURL('push');
  $('result').focus({preventScroll:true});$('result').scrollIntoView({block:'start'});
 }
+$('search-all').addEventListener('click',()=>{
+ $('mode').value='all';changed();
+ $('result').focus({preventScroll:true});$('result').scrollIntoView({block:'start'});
+});
 $('prev').onclick=()=>movePage(-1);
 $('next').onclick=()=>movePage(1);
 $('clear-all').addEventListener('click',()=>{

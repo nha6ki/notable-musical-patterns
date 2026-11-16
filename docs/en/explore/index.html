@@ -34,13 +34,13 @@ body.clip-open{padding-bottom:var(--clip-pad,120px)}
 </style><link rel="stylesheet" href="../../ui-visual.css?v=card-content-1"><link rel="canonical" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="ja" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="alternate" hreflang="en" href="https://nha6ki.github.io/notable-musical-patterns/en/explore/"><link rel="alternate" hreflang="x-default" href="https://nha6ki.github.io/notable-musical-patterns/explore/"><link rel="stylesheet" href="../../i18n.css?v=1"><script defer src="../../i18n.js?v=1"></script><body class="page-explore"><a href="#q" class="nmp-skip">Skip to main content</a><header class="nmp-bar"><div class="nmp-bar-inner"><a class="nmp-brand" href="../" aria-label="Notable Musical Patterns home"><span class="nmp-brand-mark">NMP</span><span>NOTABLE MUSICAL<br>PATTERNS</span></a><nav aria-label="Main navigation"><a href="../">Home</a><a href="../explore/" aria-current="page">Search by Feature</a><a href="../datasets/">Search by Source</a><a href="../guide/">Read the Guide</a><a class="nmp-language" href="../../explore/" hreflang="ja" aria-label="Switch to Japanese">Japanese</a></nav></div></header><main id="main">
 <header class="section-head"><div class="eyebrow">01 / EXPLORE BY CONCEPT</div><h1 class="nmp-page-title">Search by Feature</h1><p class="nmp-page-lead">Find and compare short clips by musical feature, work title, or source. Switch the availability filter to include external listening links or reference material. To learn what to listen for, <a href="../guide/">read the guide</a>.</p><p class="muted" id="totals"></p></header>
 <section class="search-shell" aria-label="Listening clip search filters">
-<div class="controls controls--basic"><label>Availability<select id="mode"><option value="audio">On-site audio</option><option value="external">External listening</option><option value="material">Reference material</option><option value="all">All entries</option><option value="without">All entries without on-site audio</option><option value="reference">Source references</option><option value="analysis">Metadata and analysis</option></select></label><label>Search terms or clip ID<input id="q" type="search" placeholder="e.g. Alberti bass, hi-hat"></label><label>Category<select id="grp"></select></label></div>
+<div class="controls controls--basic"><label>Availability<select id="mode"><option value="audio">On-site audio</option><option value="external">External listening</option><option value="material">Reference material</option><option value="all">All entries</option><option value="without">All entries without on-site audio</option><option value="reference">Source references</option><option value="analysis">Metadata and analysis</option></select></label><label>Work title, feature or record ID<input id="q" type="search" placeholder="e.g. Alberti bass, hi-hat"></label><label>Category<select id="grp"></select></label></div>
 <details class="advanced"><summary>More filters</summary><div class="controls"><label>Pattern family<select id="fam"></select></label><label>Feature label<select id="cl"></select></label><label>Source collection<select id="ds"></select></label><label>Entry type<select id="kind"></select></label><label>Evidence for each feature<select id="st"></select></label></div>
 <p id="evidence-title" class="muted" style="margin-bottom:.3em">Evidence available for the clip</p><p class="muted">A clip with a structural description has at least one documented musical feature. This does not mean that every feature in the recording has been verified.</p><div class="paging" role="group" aria-labelledby="evidence-title"><button type="button" id="e-all" aria-pressed="true">All 2,983</button><button type="button" id="e-direct" aria-pressed="false">Structural description 1,771</button><button type="button" id="e-source" aria-pressed="false">Source annotation only 522</button><button type="button" id="e-unknown" aria-pressed="false">Unclassified 690</button></div>
 <details class="nmp-details tips"><summary>Understanding entry types and evidence</summary><p>Evidence is recorded separately for each feature. For example, a drum clip may have a 6/8 time signature supplied by its source, while its kick placement was checked against MIDI note onsets. A named pattern does not imply that the performance or work is famous. A short clip may not contain the full structure shown in a performance chart. Structural descriptions do not mean that every recording has been independently assessed by ear. Unclassified means that no classification has been assigned under the current criteria, not that the music has no relevant features.</p></details></details></section>
 <p class="muted localization-note">English descriptions preserve the source records’ qualifications and verification status. Japanese work titles are romanized; original names remain searchable.</p><div class="result-bar" id="results"><p id="result" role="status" tabindex="-1"></p><div class="paging"><button class="nmp-btn" id="clear-all" type="button">Clear filters</button></div></div>
 <div class="current-filters" id="chips" aria-label="Active filters"></div><p class="muted" id="priority-note" aria-live="polite"></p>
-<p id="scout-empty" hidden>No matching entries. Try a shorter query or clear some filters.</p>
+<div id="scout-empty" hidden><p id="no-results-message">No matching entries. Try a shorter query or clear some filters.</p><button id="search-all" class="nmp-btn" type="button" hidden>Search all entries</button></div>
 <div id="list" class="feature-card-grid"></div><nav class="paging" aria-label="Search results pagination"><button id="prev" class="nmp-btn" type="button">Previous</button><span id="page"></span><button id="next" class="nmp-btn" type="button">Next</button></nav>
 <noscript><p>JavaScript is required to search and play clips.</p></noscript></main>
 <footer class="nmp-site-footer"><div class="nmp-site-footer-inner"><span>Notable Musical Patterns</span><nav aria-label="Footer navigation"><a href="../datasets/release-notes.html">Coverage and usage terms</a><a href="#main">Back to top ↑</a></nav></div></footer><aside id="clip-player" aria-label="Listening player" hidden><div class="clip-bar">
@@ -193,13 +193,20 @@ function render(){
  };
  const filterActive=Boolean(g||f||label||type||st||evidenceLevel),mode=$('mode').value;
  const inMode=row=>mode==='all'||(mode==='material'?row.releaseKind==='source_only'&&!row.listeningUrl:mode==='without'?row.releaseKind==='source_only':mode==='external'?Boolean(row.listeningUrl):row.mode===mode);
- const permits=entry=>(!ds||entry.row.dataset===ds)&&inMode(entry.row)&&
+ const permits=entry=>(!ds||entry.row.dataset===ds)&&
    (entry.feature?(!evidenceLevel||level(entry.feature)===evidenceLevel)&&showByTaxonomy(entry.feature):!filterActive);
  const broad=new Set(!legacyCatalogue&&!exact?catalogue.search($('q').value).map(entry=>entry.row.id):[]);
  const terms=legacyCatalogue?legacyNorm($('q').value).trim().split(/\s+/).filter(Boolean):[];
  const order=legacyCatalogue?catalogue.entries:[...data.map(a=>catalogue.byId.get(a[0])),...catalogue.entries.filter(entry=>!entry.feature)];
- const hits=order.filter(entry=>permits(entry)&&(legacyCatalogue?terms.every(w=>legacySearchText(entry.row).includes(w)):
-   exact?norm(entry.row.id)===q[0]:broad.has(entry.row.id)||(entry.feature&&q.every(w=>entry.feature[11].includes(w)))));
+ const matches=entry=>legacyCatalogue?terms.every(w=>legacySearchText(entry.row).includes(w)):
+   exact?norm(entry.row.id)===q[0]:broad.has(entry.row.id)||(entry.feature&&q.every(w=>entry.feature[11].includes(w)));
+ const hits=order.filter(entry=>inMode(entry.row)&&permits(entry)&&matches(entry));
+ const references=!hits.length&&mode==='audio'&&!filterActive
+   ? order.filter(entry=>!entry.feature&&permits(entry)&&matches(entry)).length : 0;
+ $('search-all').hidden=!references;
+ $('no-results-message').textContent=references
+  ? 'No clips match. '+fmt.format(references)+(references===1?' matching entry has':' matching entries have')+' no on-site audio.'
+  : 'No matching entries. Try a shorter query or clear some filters.';
  const priority=new Map(hits.filter(entry=>entry.feature).map(({row,feature})=>[row.id,representative(feature,g,f,label,type,st,exact?[]:q)]));
  const ranked=legacyCatalogue?0:hits.filter(entry=>priority.get(entry.row.id)?.length>0).length;
  if(ranked)hits.sort((a,b)=>Number((priority.get(b.row.id)?.length||0)>0)-Number((priority.get(a.row.id)?.length||0)>0));
@@ -423,6 +430,10 @@ function movePage(delta){
  n+=delta;render();writeURL('push');
  $('result').focus({preventScroll:true});$('result').scrollIntoView({block:'start'});
 }
+$('search-all').addEventListener('click',()=>{
+ $('mode').value='all';changed();
+ $('result').focus({preventScroll:true});$('result').scrollIntoView({block:'start'});
+});
 $('prev').onclick=()=>movePage(-1);
 $('next').onclick=()=>movePage(1);
 $('clear-all').addEventListener('click',()=>{
