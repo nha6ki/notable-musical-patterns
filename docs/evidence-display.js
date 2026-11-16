@@ -1,5 +1,5 @@
 /* Presentation only: leave the review data, taxonomy and search associations intact. */
-window.nmpEvidence = (record, localize, related) => {
+window.nmpEvidence = (record, localize, related, displayedCategory = '') => {
   const tidy = value => String(value ?? '').replace(/\s+/gu, ' ').trim();
   const show = value => tidy(localize(value ?? ''));
   const rawMethod = tidy(record[9]);
@@ -40,5 +40,17 @@ window.nmpEvidence = (record, localize, related) => {
   const repeatedJamsTags = new Set(['指示譜の全体構造','実音和音は独立未検証','冒頭試聴は進行全体ではない']);
   const tags = leadSheet ? tidy(record[8]).split('|').map(tidy).filter(value => value && !repeatedJamsTags.has(value)).join(' | ') : record[8];
   const summary = features.length ? overview : overview.replace(/^(?:今回も保留。|今回の点検後も定型は保留。)\s*/u, '');
-  return {overview: summary, features, tags: show(tags)};
+  // Remove only exact reference tags already visible as the catalogue category.
+  const category = displayedCategory.trim();
+  let visibleTags = show(tags);
+  if (category) {
+    const rawItems = String(tags ?? '').split('|').map(s => s.trim());
+    if (rawItems.includes(category)) {
+      const translatedItems = visibleTags.split('|').map(s => s.trim());
+      visibleTags = translatedItems.length === rawItems.length
+        ? translatedItems.filter((_, index) => rawItems[index] !== category).join(' | ')
+        : show(rawItems.filter(item => item !== category).join(' | '));
+    }
+  }
+  return {overview: summary, features, tags: visibleTags};
 };
