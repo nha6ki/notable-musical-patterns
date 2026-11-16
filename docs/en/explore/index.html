@@ -36,11 +36,11 @@ body.clip-open{padding-bottom:var(--clip-pad,120px)}
 <section class="search-shell" aria-label="Listening clip search filters">
 <div class="controls controls--basic"><label>Availability<select id="mode"><option value="audio">On-site audio</option><option value="external">External listening</option><option value="material">Reference material</option><option value="all">All entries</option><option value="without">All entries without on-site audio</option><option value="reference">Source references</option><option value="analysis">Metadata and analysis</option></select></label><label>Work title, feature or record ID<input id="q" type="search" placeholder="e.g. Alberti bass, hi-hat"></label><label>Category<select id="grp"></select></label></div>
 <details class="advanced"><summary>More filters</summary><div class="controls"><label>Pattern family<select id="fam"></select></label><label>Feature label<select id="cl"></select></label><label>Source collection<select id="ds"></select></label><label>Entry type<select id="kind"></select></label><label>Evidence for each feature<select id="st"></select></label></div>
-<p id="evidence-title" class="muted" style="margin-bottom:.3em">Evidence available for the clip</p><p class="muted">A clip with a structural description has at least one documented musical feature. This does not mean that every feature in the recording has been verified.</p><div class="paging" role="group" aria-labelledby="evidence-title"><button type="button" id="e-all" aria-pressed="true">All 2,983</button><button type="button" id="e-direct" aria-pressed="false">Structural description 1,771</button><button type="button" id="e-source" aria-pressed="false">Source annotation only 522</button><button type="button" id="e-unknown" aria-pressed="false">Unclassified 690</button></div>
+<p id="evidence-title" class="muted" style="margin-bottom:.3em">On-site audio: evidence status (2,983 clips total)</p><p class="muted">A clip with a structural description has at least one documented musical feature. This does not mean that every feature in the recording has been verified.</p><div class="paging" role="group" aria-labelledby="evidence-title"><button type="button" id="e-all" aria-pressed="true">No evidence filter</button><button type="button" id="e-direct" aria-pressed="false">Structural description 1,771</button><button type="button" id="e-source" aria-pressed="false">Source annotation only 522</button><button type="button" id="e-unknown" aria-pressed="false">Unclassified 690</button></div>
 <details class="nmp-details tips"><summary>Understanding entry types and evidence</summary><p>Evidence is recorded separately for each feature. For example, a drum clip may have a 6/8 time signature supplied by its source, while its kick placement was checked against MIDI note onsets. A named pattern does not imply that the performance or work is famous. A short clip may not contain the full structure shown in a performance chart. Structural descriptions do not mean that every recording has been independently assessed by ear. Unclassified means that no classification has been assigned under the current criteria, not that the music has no relevant features.</p></details></details></section>
 <p class="muted localization-note">English descriptions preserve the source records’ qualifications and verification status. Japanese work titles are romanized; original names remain searchable.</p><div class="result-bar" id="results"><p id="result" role="status" tabindex="-1"></p><div class="paging"><button class="nmp-btn" id="clear-all" type="button">Clear filters</button></div></div>
 <div class="current-filters" id="chips" aria-label="Active filters"></div><p class="muted" id="priority-note" aria-live="polite"></p>
-<div id="scout-empty" hidden><p id="no-results-message">No matching entries. Try a shorter query or clear some filters.</p><button id="search-all" class="nmp-btn" type="button" hidden>Search all entries</button></div>
+<div id="scout-empty" hidden><p id="no-results-message">No matching entries. Try a shorter query or clear some filters.</p><button id="search-all" class="nmp-btn" type="button" hidden>Search all entries</button><button id="clear-feature-filters" class="nmp-btn" type="button" hidden>Clear feature and evidence filters</button></div>
 <div id="list" class="feature-card-grid"></div><nav class="paging" aria-label="Search results pagination"><button id="prev" class="nmp-btn" type="button">Previous</button><span id="page"></span><button id="next" class="nmp-btn" type="button">Next</button></nav>
 <noscript><p>JavaScript is required to search and play clips.</p></noscript></main>
 <footer class="nmp-site-footer"><div class="nmp-site-footer-inner"><span>Notable Musical Patterns</span><nav aria-label="Footer navigation"><a href="../datasets/release-notes.html">Coverage and usage terms</a><a href="#main">Back to top ↑</a></nav></div></footer><aside id="clip-player" aria-label="Listening player" hidden><div class="clip-bar">
@@ -203,8 +203,10 @@ function render(){
  const hits=order.filter(entry=>inMode(entry.row)&&permits(entry)&&matches(entry));
  const references=!hits.length&&mode==='audio'&&!filterActive
    ? order.filter(entry=>!entry.feature&&permits(entry)&&matches(entry)).length : 0;
+ const blockedByFeature=!hits.length&&mode!=='all'&&mode!=='audio'&&filterActive;
+ $('clear-feature-filters').hidden=!blockedByFeature;
  $('search-all').hidden=!references;
- $('no-results-message').textContent=references
+ $('no-results-message').textContent=blockedByFeature?'Feature and evidence filters apply to on-site audio only. Clear them to search external listening links or reference material with your other filters.' : references
   ? 'No clips match. '+fmt.format(references)+(references===1?' matching entry has':' matching entries have')+' no on-site audio.'
   : 'No matching entries. Try a shorter query or clear some filters.';
  const priority=new Map(hits.filter(entry=>entry.feature).map(({row,feature})=>[row.id,representative(feature,g,f,label,type,st,exact?[]:q)]));
@@ -430,6 +432,11 @@ function movePage(delta){
  n+=delta;render();writeURL('push');
  $('result').focus({preventScroll:true});$('result').scrollIntoView({block:'start'});
 }
+$('clear-feature-filters').addEventListener('click',()=>{
+ for(const id of ['grp','fam','cl','kind','st'])$(id).value='';
+ syncTaxonomy();setLevel('');
+ $('result').focus({preventScroll:true});$('result').scrollIntoView({block:'start'});
+});
 $('search-all').addEventListener('click',()=>{
  $('mode').value='all';changed();
  $('result').focus({preventScroll:true});$('result').scrollIntoView({block:'start'});

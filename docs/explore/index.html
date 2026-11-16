@@ -36,11 +36,11 @@ body.clip-open{padding-bottom:var(--clip-pad,120px)}
 <section class="search-shell" aria-label="試聴例の検索条件">
 <div class="controls controls--basic"><label>試聴・資料の表示<select id="mode"><option value="audio">サイト内試聴</option><option value="external">外部試聴</option><option value="material">資料のみ</option><option value="all">すべて</option><option value="without">サイト内音声なし（全件）</option><option value="reference">出典参照</option><option value="analysis">メタデータ・分析</option></select></label><label>作品名・特徴・項目ID<input id="q" type="search" placeholder="例：アルベルティ・バス、ハイハット"></label><label>大分類<select id="grp"></select></label></div>
 <details class="advanced"><summary>詳細な絞り込み</summary><div class="controls"><label>パターンのまとまり<select id="fam"></select></label><label>詳細ラベル<select id="cl"></select></label><label>資料群<select id="ds"></select></label><label>項目の種類<select id="kind"></select></label><label>特徴ごとの根拠<select id="st"></select></label></div>
-<p id="evidence-title" class="muted" style="margin-bottom:.3em">試聴例全体の確認状況</p><p class="muted">「構造記述あり」は、少なくとも一つの特徴に構造の記述がある試聴例です。音源内のすべての特徴が確認済みという意味ではありません。</p><div class="paging" role="group" aria-labelledby="evidence-title"><button type="button" id="e-all" aria-pressed="true">全件 2,983</button><button type="button" id="e-direct" aria-pressed="false">構造記述あり 1,771</button><button type="button" id="e-source" aria-pressed="false">出典注釈のみ 522</button><button type="button" id="e-unknown" aria-pressed="false">未同定 690</button></div>
+<p id="evidence-title" class="muted" style="margin-bottom:.3em">サイト内試聴の確認状況（全2,983件）</p><p class="muted">「構造記述あり」は、少なくとも一つの特徴に構造の記述がある試聴例です。音源内のすべての特徴が確認済みという意味ではありません。</p><div class="paging" role="group" aria-labelledby="evidence-title"><button type="button" id="e-all" aria-pressed="true">確認状況で絞り込まない</button><button type="button" id="e-direct" aria-pressed="false">構造記述あり 1,771</button><button type="button" id="e-source" aria-pressed="false">出典注釈のみ 522</button><button type="button" id="e-unknown" aria-pressed="false">未同定 690</button></div>
 <details class="nmp-details tips"><summary>項目の種類と根拠の読み方</summary><p>「特徴ごとの根拠」は、一つひとつの特徴に何を根拠として付けたかを示します。たとえば同じドラム試聴でも、6/8は配布元の拍子指定、キックの位置はMIDIの発音から確認、という場合があります。「名称のある型・概念」は、演奏や作品の著名性を示すものではありません。指示譜の全体構造が短い試聴に収まるとは限らず、構造の記述は全件の実聴を意味しません。未同定は「現在の基準で分類していない」であって、「特徴が存在しない」ではありません。</p></details></details></section>
 <div class="result-bar" id="results"><p id="result" role="status" tabindex="-1"></p><div class="paging"><button class="nmp-btn" id="clear-all" type="button">絞り込みを解除</button></div></div>
 <div class="current-filters" id="chips" aria-label="適用中の条件"></div><p class="muted" id="priority-note" aria-live="polite"></p>
-<div id="scout-empty" hidden><p id="no-results-message">一致する項目がありません。検索語を短くするか、条件を外してください。</p><button id="search-all" class="nmp-btn" type="button" hidden>すべての項目を探す</button></div>
+<div id="scout-empty" hidden><p id="no-results-message">一致する項目がありません。検索語を短くするか、条件を外してください。</p><button id="search-all" class="nmp-btn" type="button" hidden>すべての項目を探す</button><button id="clear-feature-filters" class="nmp-btn" type="button" hidden>特徴の条件だけを解除</button></div>
 <div id="list" class="feature-card-grid"></div><nav class="paging" aria-label="検索結果のページ"><button id="prev" class="nmp-btn" type="button">前へ</button><span id="page"></span><button id="next" class="nmp-btn" type="button">次へ</button></nav>
 <noscript><p>検索と試聴にはJavaScriptが必要です。</p></noscript></main>
 <footer class="nmp-site-footer"><div class="nmp-site-footer-inner"><span>Notable Musical Patterns</span><nav aria-label="フッターナビゲーション"><a href="../datasets/release-notes.html">掲載範囲と利用条件</a><a href="#main">ページ上部へ ↑</a></nav></div></footer><aside id="clip-player" aria-label="試聴プレーヤー" hidden><div class="clip-bar">
@@ -186,8 +186,10 @@ function render(){
  const hits=order.filter(entry=>inMode(entry.row)&&permits(entry)&&matches(entry));
  const references=!hits.length&&mode==='audio'&&!filterActive
    ? order.filter(entry=>!entry.feature&&permits(entry)&&matches(entry)).length : 0;
+ const blockedByFeature=!hits.length&&mode!=='all'&&mode!=='audio'&&filterActive;
+ $('clear-feature-filters').hidden=!blockedByFeature;
  $('search-all').hidden=!references;
- $('no-results-message').textContent=references
+ $('no-results-message').textContent=blockedByFeature?'特徴や根拠で絞り込めるのはサイト内試聴のみです。外部試聴・資料のみの項目を探すには、特徴の条件を解除してください。' : references
   ? 'サイト内で試聴できる項目はありません。サイト内音声のない項目に'+fmt.format(references)+'件一致します。'
   : '一致する項目がありません。検索語を短くするか、条件を外してください。';
  const priority=new Map(hits.filter(entry=>entry.feature).map(({row,feature})=>[row.id,representative(feature,g,f,label,type,st,exact?[]:q)]));
@@ -413,6 +415,11 @@ function movePage(delta){
  n+=delta;render();writeURL('push');
  $('result').focus({preventScroll:true});$('result').scrollIntoView({block:'start'});
 }
+$('clear-feature-filters').addEventListener('click',()=>{
+ for(const id of ['grp','fam','cl','kind','st'])$(id).value='';
+ syncTaxonomy();setLevel('');
+ $('result').focus({preventScroll:true});$('result').scrollIntoView({block:'start'});
+});
 $('search-all').addEventListener('click',()=>{
  $('mode').value='all';changed();
  $('result').focus({preventScroll:true});$('result').scrollIntoView({block:'start'});
